@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <div id='box1'>
+
+  </div>
+  <script type='text/javascript'>
+    /*
+    JOSN - js
+      JSON.parse(obj)
+
+    js - JOSN 
+      JSON.stringify(obj1)
+    
+    */
+    var obj = '{ "name": "aaa", "age": 20, "sex": "boy" }'
+    var arr = '[1,2,3,4,5,"hellow",true]'
+
+    console.log(obj, typeof obj);
+
+    var obj1 = JSON.parse(obj)
+    console.log(obj1, typeof obj1);
+    var obj2 = JSON.stringify(obj1)
+    console.log(obj2, typeof obj2);
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

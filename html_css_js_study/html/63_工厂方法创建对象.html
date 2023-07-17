@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    
+    */
+    
+    //工厂方法创建对象
+    function createObj(name,age,sex){
+      var obj = new Object();
+      obj ={
+        name:name,
+        age:age,
+        sex:sex,
+        fun:function(){
+          console.log(this.name);
+        }
+      }
+      return obj
+    }
+    
+    var obj1 = createObj('q',12,'qq')
+    obj1.fun()
+
+    var obj2 = createObj('w',13,'ww')
+    obj2.fun()
+
+    var obj3 = createObj('e',14,'ww')
+    obj3.fun()
+
+
+  </script>
+  <style></style>
+</body>
+</html>

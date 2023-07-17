@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    match()
+—可以根据正则表达式，从一个字符串中将符合条件的内容提取出来
+一默认情况下我们的match只会找到第一个符合要求的内容，找到以后就停止检索
+我们可以设置正则表达式为全局匹配模式，这样就会匹配到所有的内容
+    
+    */
+    //正则 + split
+    var str = '1w2h3h4h5j6k7h8s9a10'
+    var res = str.split(/[A-z]/)
+    document.write(res , '<br>')
+
+    //正则 + search
+    str = 'hellow acv hellow world hellow adc'
+    res = str.search(/a[A-z]c/)
+    document.write(res, '<br>')
+
+    //正则 + match
+    var str = '1w2h3h4h5j6k7h8s9a10'
+    var res = str.match(/[A-z]/g)
+    document.write(res , '<br>')
+    var res = str.match(/[0-9]/g)
+    document.write(res , '<br>')
+
+    //正则 + replace
+    var str = '1w2h3h4h5j6k7h8s9a10'
+    var res = str.replace(/[A-z]/g,'@')
+    document.write(res , '<br>')
+
+    
+    
+
+  </script>
+  <style></style>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    //函数也可以是对象的属性  调用时  叫 调用对象的方法
+    var obj = {
+      name: 'xhc',
+      fun: function () {
+        console.log('i am fun');
+      },
+      fun1: function (a, b) {
+        return a + b
+      }
+    }
+    console.log(obj);
+    console.log(obj.fun);
+    obj.fun()
+    console.log(obj.fun1);
+    console.log(obj.fun1(1,2));
+
+
+    //枚举对象属性
+    for( let n in obj){
+      console.log(n,obj[n]);
+    }
+    
+    
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

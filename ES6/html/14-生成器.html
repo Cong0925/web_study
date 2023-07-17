@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+
+    //生成器  特殊的函数   异步编程
+
+    function* fun1() {
+      console.log(111);
+      yield 'yield1'  //分隔符 通过 next继续
+      console.log(222);
+      yield 'yield2'
+      console.log(333);
+      yield 'yield3'
+      console.log(444);
+    }
+
+    var iterator = fun1()
+    function show1() {
+      //iterator.next()  // 返回值 是 yield 后面的内容
+      console.log(iterator.next());
+      //iterator.next()
+      console.log(iterator.next());
+      //iterator.next()
+      console.log(iterator.next());
+      //iterator.next()
+      console.log(iterator.next());
+    }
+    //show1()
+
+    function show2() {
+      for (let v of fun()) {
+        console.log(v);
+      }
+    }
+    //show2()
+
+
+    function* fun2(arg) {
+      console.log(arg)
+      let one = yield 111
+      console.log(one)
+      let two = yield 222
+      console.log(two)
+      let three = yield 333
+      console.log(three)
+      let four = yield 444
+      console.log(four)
+    }
+    let iterator1 = fun2('aaa')
+    //第 i 次调用 next 方法 参数作为第 i-1 个yield 的值
+    console.log(iterator1.next('bbb'));//第 1 次调用 next 方法 参数作为第 0 个yield 的值 无效
+    console.log(iterator1.next('ccc'));//第 2 次调用 next 方法 参数作为第 1 个yield 的值
+    console.log(iterator1.next('ddd'));//第 3 次调用 next 方法 参数作为第 2 个yield 的值
+    console.log(iterator1.next('eee'));//第 4 次调用 next 方法 参数作为第 3 个yield 的值
+
+
+
+
+
+
+
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = '' + '<br>'
+
+  </script>
+</body>
+
+</html>

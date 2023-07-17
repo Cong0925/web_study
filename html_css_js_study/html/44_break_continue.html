@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+ </head>
+
+<body>
+
+  <div>
+
+  </div>
+
+  <script type='text/javascript'>
+    /*
+    break 退出 switch 和循环语句  终止当前循环
+    打断最近的一层循环
+    通过添加标签结束指定循环
+    label: 循环
+
+    continue 跳过当此的循环
+
+    */
+
+    for (let i = 0; i < 100; i++) {
+      document.writeln(i)
+      if (i == 10) {
+        document.write('<br>', 'break 结束', '<br>')
+        break
+      }
+    }
+
+    //通过添加标签结束指定循环
+    //label: 循环
+    outer:
+    for (let i = 0; i < 100; i++) {
+      document.write('outer:' + i + '<br>')
+      for (let j = 0; j < 100; j++) {
+        document.write('inner:  ' + j + '<br>')
+        if (j == 10) {
+          document.write('break end outer')
+          break outer
+        }
+
+      }
+    }
+
+    //continue
+    for (let i = 0; i < 10; i++) {
+      //document.write('outer:' + i + '<br>')
+      for (let j = 0; j < 10; j++) {
+        if (j >= 3 && j <= 7) {
+          document.write('continue 3-7', '<br>')
+          continue
+        }
+        document.write('inner:  ' + j + '<br>')
+      }
+    }
+
+    //质数改进练习
+    console.time("time1")
+    for (let i = 2; i < 10000; i++) {
+      let flag = true
+      for (let j = 2; j < i; j++) {
+        if (i % j == 0) {
+          flag = false
+          break
+        }
+      }
+    }
+    console.timeEnd("time1")
+
+    console.time("time2")
+    for (let i = 2; i < 100000; i++) {
+      let flag = true
+      for (let j = 2; j < Math.sqrt(i); j++) {
+        if (i % j == 0) {
+          flag = false
+          break
+        }
+      }
+    }
+    console.timeEnd("time2")
+
+
+  </script>
+
+
+  <style>
+
+
+  </style>
+</body>
+
+</html>

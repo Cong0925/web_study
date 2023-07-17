@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <button onclick="myFunction()">随机排序</button>
+  <p id="demo"></p>
+  <script type='text/javascript'>
+    /*
+    sort() 方法以字母顺序对数组进行排序：
+    sort() 对数字比较时采用比值函数，
+    返回值 >0  交换位置
+    返回值 =<0 位置不换
+
+
+    reverse() 方法反转数组中的元素。
+    reverse() 比较数字 相反的原理
+
+    获取数组 最大值 最小值
+    1 通过sort先排序，可以得到首尾是最值
+    2 通过 Math.max()  Math.min()
+      Math.max.apply(null,arr)  Math.min.apply(null,arr)
+      Math.max.apply([1, 2, 3]) 等于 Math.max(1, 2, 3)
+      Math.min.apply([1, 2, 3]) 等于 Math.min(1, 2, 3)
+    3 自写函数比较
+
+
+    对象数组的排序
+    
+    */
+
+    //sort()
+    var fruits = ["Banana", "Orange", "Apple", "Mango"];
+    fruits.sort();// 对 fruits 中的元素进行排序
+    var points = [40, 100, 1, 5, 25, 10];
+    points.sort(function (a, b) { return a - b });
+    document.write('<br>', 'sort', '<br>', fruits, '<br>', points)
+    document.write('<br>')
+
+    //reverse()
+    fruits.reverse();// 对 fruits 中的元素进行排序
+    points.reverse(function (a, b) { return a - b });
+    document.write('<br>', 'reverse', '<br>', fruits, '<br>', points)
+    document.write('<br>')
+
+    //随机排序
+    var points = [403, 1030, 13, 35, 22, 10];
+    document.getElementById("demo").innerHTML = points;
+    function myFunction() {
+      points.sort(function (a, b) { return 0.5 - Math.random() });
+      document.getElementById("demo").innerHTML = points;
+    }
+
+    //Math.max()  Math.min()
+    var points = [403, 1030, 13, 35, 22, 10];
+    points.sort(function (a, b) { return a - b });
+    var max = Math.max.apply(null, points)
+    var min = Math.min.apply(null, points)
+    document.write('<br>', '最大最小值', '<br>', points, '<br>', max, '<br>', min)
+    document.write('<br>')
+
+    //自编译查最值
+    function myArrayMax(arr) {
+      var len = arr.length
+      var max = -Infinity;
+      while (len--) {
+        if (arr[len] > max) {
+          max = arr[len];
+        }
+      }
+      return max;
+    }
+    function myArrayMin(arr) {
+      var len = arr.length
+      var min = Infinity;
+      while (len--) {
+        if (arr[len] < min) {
+          min = arr[len];
+        }
+      }
+      return min;
+    }
+    document.write('<br>', '自编译查最值', '<br>', myArrayMax(points), '<br>', myArrayMin(points))
+    document.write('<br>')
+
+
+    //排序对象数组
+    var cars = [
+      { type: "Volvo", year: 2016 },
+      { type: "Saab", year: 2001 },
+      { type: "BMW", year: 2010 }];
+
+    cars.sort(function (a, b) { return a.year - b.year });
+    for(let i=0;i<cars.length;i++){
+      document.write('<br>', '对象数组数字比较', '<br>', cars[i].type,cars[i].year)
+      document.write('<br>')
+    }
+    
+    cars.sort(function (a, b) {
+      var x = a.type.toLowerCase();
+      var y = b.type.toLowerCase();
+      if (x < y) { return -1; }
+      if (x > y) { return 1; }
+      return 0;
+    });
+    for(let i=0;i<cars.length;i++){
+      document.write('<br>', '对象数组字符串比较', '<br>', cars[i].type,cars[i].year)
+      document.write('<br>')
+    }
+
+  </script>
+  <style></style>
+</body>
+
+</html>

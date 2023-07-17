@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+ </head>
+
+<body>
+
+  <div>
+
+  </div>
+
+  <script type='text/javascript'>
+/*
+主要对于布尔值操作
+&& 与
+|| 或
+!  非
+
+*/
+var a = true
+var b= !a //false
+var c= !!a //true
+console.log(b,c);
+
+
+var aa = true && true   //true
+var bb = true && false  //false
+var cc = false && false //false
+console.log(aa,bb,cc);
+
+//同时为 true 才 true
+true && console.log('先判断true 不确定结果， 接着再往后');
+false && console.log('先判断false 不通过， 无法输出');
+
+
+
+var aaa = true || true   //true
+var bbb = true || false  //true
+var ccc = false || false //false
+console.log(aaa,bbb,ccc);
+
+//同时为 false  才 false
+true || console.log('先判断true 不通过， 无法输出');
+false || console.log('先判断false 不确定结果， 接着再往后');
+
+
+  </script>
+
+</body>
+
+</html>

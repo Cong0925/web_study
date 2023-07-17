@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+ </head>
+
+<body>
+
+  <div>
+
+  </div>
+
+  <script type='text/javascript'>
+/*
+算术运行算符
++ -  * / 　　%（取余数）
+
+任何值　做　－　＊　／　都转换为　Number
+
+*/
+
+// +
+var res ;
+res = 1+1
+console.log(res); //2
+
+res = true + 1
+console.log(res); //2
+
+res = false +1 
+console.log(res); //1
+
+res = null +1
+console.log(res); //1
+
+res = NaN + 1
+console.log(res);  //NaN
+
+res = '123' + '456'
+console.log(res); //'123456'
+
+res = 123 + '456'
+console.log(res); //'123456'
+
+res = true + '1234'
+console.log(res); //'true1234'
+
+res = 1 + 2 + '3'
+console.log(res); // '33'
+
+res = '1' + 2 + 3
+console.log(res); //'123'
+
+
+// - 
+res = 100 - 1
+res1 = 100 - true
+res2 = 100 - '1'
+console.log(res, res1, res2);
+
+// * 
+res = 2 * 2           //4
+res1 = 2 * '2'        //4
+res2 = 2 * null       //0
+res3 = 2 * undefined  //NaN
+console.log(res, res1, res2, res3);
+
+
+// /
+res = 2 / 2           //1
+res1 = 2 / '2'        //1
+res2 = 2 / null       //Infinity 
+res3 = 2 / undefined  //NaN
+console.log(res, res1, res2, res3);
+
+// %
+res = 9 % 3 // 0
+res1 = 9 % 5 // 4
+console.log(res,res1);
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

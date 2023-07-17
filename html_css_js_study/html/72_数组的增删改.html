@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    toString    把数组转换为字符串
+    join        将所有数组元素结合为一个字符串，可以规定分隔符
+    pop         末尾删除，删除元素作为返回值
+    push        末尾添加，添加元素作为返回值
+    shift       首位删除，删除元素作为返回值，并返回新的长度。
+    unshift     首位添加，添加元素作为返回值，并返回新的长度。
+    splice      可用于向数组添加新项，来删除元素
+    concat      合并（连接）数组，
+    slice       用数组的某个片段切出新数组。
+
+
+
+    concat		连接两个或更多的数组，并返回结果。
+    join			把数组的所有元素放入一个字符串。元素通过指定的分隔符进行分隔。
+    pop			删除并返回数组的最后一个元素
+    push			向数组的末尾添加一个或更多元素，并返回新的长度。
+    reverse		颠倒数组中元素的顺序。
+    shift						删除并返回数组的第一个元素
+    slice						从某个已有的数组返回选定的元素
+    sort						对数组的元素进行排序
+    splice					删除元素，并向数组添加新元素。
+    toSource				返回该对象的源代码。
+    toString				把数组转换为字符串，并返回结果。
+    toLocaleString		把数组转换为本地数组，并返回结果。
+    unshift					向数组的开头添加一个或更多元素，并返回新的长度。
+    valueOf				返回数组对象的原始值
+    */
+    var arr = ['孙悟空','猪八戒','沙和尚'];
+
+/*
+把数组转换为字符串
+JavaScript 方法 toString() 把数组转换为数组值（逗号分隔）的字符串。
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.toString()) 
+    
+
+/*
+join() 方法也可将所有数组元素结合为一个字符串。
+它的行为类似 toString()，但是您还可以规定分隔符：
+*/
+var fruits = ["Banana", "Orange","Apple", "Mango"];
+console.log(fruits.join(" * "))
+
+/*
+pop() 方法从数组中删除最后一个元素：
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.pop();    // 从 fruits 删除最后一个元素（"Mango"） 
+console.log(fruits);
+
+/*
+位移与弹出等同，但处理首个元素而不是最后一个。
+shift() 方法会删除首个数组元素，
+并把所有其他元素“位移”到更低的索引
+
+shift() 方法返回被“位移出”的字符串：
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.shift();  // 从 fruits 删除第一个元素 "Banana"
+console.log(fruits);
+
+var aa = fruits.shift();
+console.log(aa);
+
+
+
+/*
+push() 方法（在数组结尾处）向数组添加一个新的元素
+
+push() 方法返回新数组的长度：
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.push("Kiwi");//  向 fruits 添加一个新元素
+console.log(fruits);
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var x =  fruits.push("Kiwi");   //  x 的值是 5
+console.log(x,fruits);
+
+
+
+/*
+unshift() 方法（在开头）向数组添加新元素，并“反向位移”旧元素：
+
+unshift() 方法返回新数组的长度。
+*/
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.unshift("Lemon");    // 向 fruits 添加新元素 "Lemon"
+console.log(fruits);
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+x = fruits.unshift("Lemon");    // 返回 5
+console.log(x,fruits);
+
+
+/*
+既然 JavaScript 数组属于对象，其中的元素就可以使用 JavaScript delete 运算符来删除
+使用 delete 会在数组留下未定义的空洞
+*/
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+delete fruits[0]; // 把 fruits 中的首个元素改为 undefined
+console.log(fruits); //长度不变 ，删除的只是值
+
+/*
+拼接数组
+splice() 方法可用于向数组添加新项：
+
+第一个参数（2）定义了应添加新元素的位置（拼接）。
+第二个参数（0）定义应删除多少元素。
+其余参数（“Lemon”，“Kiwi”）定义要添加的新元素。
+splice() 方法返回一个包含已删除项的数组：
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits);
+fruits.splice(2, 0, "Lemon", "Kiwi");
+console.log(fruits);
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits);
+fruits.splice(2, 2, "Lemon", "Kiwi");
+console.log(fruits);
+
+/*
+使用 splice() 来删除元素
+通过聪明的参数设定，
+您能够使用 splice() 在数组中不留“空洞”的情况下移除元素
+
+第一个参数（0）定义新元素应该被添加（接入）的位置。
+
+第二个参数（1）定义应该删除多个元素。
+
+其余参数被省略。没有新元素将被添加。
+
+*/
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.splice(0, 1);  // 删除 fruits 中的第一个元素
+console.log(fruits);
+
+
+/*
+合并（连接）数组
+concat() 方法通过合并（连接）现有数组来创建一个新数组：
+concat() 方法不会更改现有数组。它总是返回一个新数组。
+concat() 方法可以使用任意数量的数组参数：
+concat() 方法也可以将值作为参数：
+实例（将数组与值合并）
+*/
+var arr1 = ["Cecilie", "Lone"];
+var arr2 = ["Emil", "Tobias", "Linus"];
+var arr3 = ["Robin", "Morgan"];
+var myChildren = arr1.concat(arr2, arr3);
+console.log(myChildren);
+
+var arr1 = ["Cecilie", "Lone"];
+var myChildren = arr1.concat(["Emil", "Tobias", "Linus"]); 
+console.log(myChildren);
+
+/*
+裁剪数组
+slice() 方法用数组的某个片段切出新数组。
+*/
+//本例从数组元素 1 （"Orange"）开始切出一段数组：
+var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+var citrus = fruits.slice(1); 
+
+//slice() 方法创建新数组。它不会从源数组中删除任何元素。
+//本例从数组元素 3 （"Apple"）开始切出一段数组：
+var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+var citrus = fruits.slice(3); 
+
+/*
+slice() 可接受两个参数，比如 (1, 3)。
+该方法会从开始参数选取元素，直到结束参数（不包括）为止。
+*/
+var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+var citrus = fruits.slice(1, 3); 
+
+//如果结束参数被省略，比如第一个例子，则 slice() 会切出数组的剩余部分。
+var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+var citrus = fruits.slice(2);
+
+
+
+
+  </script>
+  <style></style>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 600px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+
+  <script type='text/javascript'>
+
+    //... 将数组 转换为逗号分隔的 参数序列
+    var arr = [1111, 2222, 33333, 44444, 55555]
+    function fun1() {
+      console.log(arguments, arguments.length);
+    }
+    fun1(arr)      //arguments.length = 1
+    fun1(...arr)   //arguments.length = arr.length = 5
+
+
+    // 数组合并
+    var kuaizi = ['王太利', '肖央']
+    var fenghuang = ['曾毅', '玲花']
+    var zuhe1 = kuaizi.concat(fenghuang)    //ES5
+    var zuhe2 = [...kuaizi, ...fenghuang]    //ES6
+
+    //数组克隆
+    var zuhe3 = [...kuaizi]
+
+    // 伪数组 转为 真数组
+    var divs = document.getElementsByTagName('div')  // Object
+    var divArr = [...divs]   //Array
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = zuhe1 + '<br>'
+      + zuhe2 + '<br>'
+      + zuhe3 + '<br>'
+      + divs  + '<br>'
+      + divArr + '<br>'
+
+
+
+  </script>
+</body>
+
+</html>

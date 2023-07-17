@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    obj.f()的调用中，因为运行环境在obj对象内，
+    因此函数中的this指向对象obj;
+
+    而在全局作用域下调用 fun() ，
+    函数中的 this 就会指向全局作用域对象window;
+    
+    */
+    //
+    function fun() {
+      console.log(this.s);
+    }
+    var obj = {
+      s: '1',
+      f: fun
+    }
+    var s = '2';
+    obj.f(); //1
+    fun(); //2
+
+    //
+    var A = {
+      name: '张三',
+      f: function () {
+        console.log('姓名：' + this.name);
+      }
+    };
+
+    var B = {
+      name: '李四'
+    };
+
+    B.f = A.f;
+    B.f()   // 姓名：李四
+    A.f()   // 姓名：张三
+
+    //obj1对象的o1属性值是obj2对象的地址，
+    //而obj2对象的fn属性的值是函数foo的地址；
+    //函数foo的调用环境是在obj2中的，因此this指向对象obj2;
+    function foo() {
+      console.log(this.a);
+    }
+    var obj2 = {
+      a: 2,
+      fn: foo
+    };
+    var obj1 = {
+      a: 1,
+      o1: obj2
+    };
+    obj1.o1.fn(); // 2
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

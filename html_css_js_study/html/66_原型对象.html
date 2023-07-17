@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+   原型 prototype
+    我们所创建的每一个函数，解析器都会向函数中添加一个属性prototype
+        这个属性对应着一个对象，这个对象就是我们所谓的原型对象
+    如果函数作为普通函数调用prototype没有任何作用
+    当函数以构造函数的形式调用时，它所创建的对象中都会有一个隐含的属性，
+        指向该构造函数的原型对象，我们可以通过_proto_来访问该属性
+
+    原型对象就相当于一个公共的区域，所有同一个类的实例都可以访问到这个原型对象，
+        我们可以将对象中共有的内容，统一设置到原型对象中。
+
+    当我们访问对象的一个属性或方法时，它会先在对象自身中寻找，
+        如果有则直接使用如果没有则会去原型对象中寻找，如果找到则直接使用
+   
+   *以后我们创建构造函数时，可以将这些对象共有的属性和方法，
+      统一添加到构造函数的原型对象中，
+      这样不用分别为每一个对象添加，也不会影响到全局作用域，
+      就可以使每个对象都具有这些属性和方法了
+   
+        */
+
+    function Persion(name, age, sex) {
+      this.name = name
+      this.age = age
+      this.sex = sex
+    }
+
+    Persion.prototype.a = 123
+    Persion.prototype.fun1 = function () {
+      console.log(this.name);
+    }
+
+    //有隐含属性 __proto__ 和 prototype 指向同一个地址
+    var obj1 = new Persion('q', 12, 'qq')
+    console.log(obj1.__proto__ == Persion.prototype);
+    console.log(obj1.a);
+    obj1.fun1()
+
+    var obj2 = new Persion('w', 13, 'ww')
+    console.log(obj2.__proto__ == Persion.prototype);
+    console.log(obj2.a);
+
+    var obj3 = new Persion('e', 14, 'ww')
+    console.log(obj3.__proto__ == Persion.prototype);
+    console.log(obj3.a);
+
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

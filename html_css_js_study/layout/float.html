@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>float布局实现三种样式</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 1000px;
+      height: 900px;
+      margin: 10px auto;
+      border: 1px solid black;
+    }
+
+    /*
+    一行两列
+    */
+    .columns2 {
+      height: 200px;
+    }
+
+    .columns2-1 {
+      width: 600px;
+      height: 200px;
+      background-color: aqua;
+      float: left;
+    }
+
+    .columns2-2 {
+      width: 390px;
+      height: 200px;
+      background-color: antiquewhite;
+      float: right;
+    }
+
+    .clear {
+      clear: both;
+    }
+
+
+    /*
+    一行多列
+    */
+    .clearAfter::after {
+      clear: both;
+      display: block;
+    }
+
+    .columns4 {
+      margin-top: 20px;
+      height: 200px;
+    }
+
+    .columns4-1 {
+      width: 230px;
+      height: 200px;
+      background-color: chartreuse;
+      float: left;
+    }
+
+    .columns4-2 {
+      margin-left: 10px;
+      width: 250px;
+      height: 200px;
+      background-color: rgb(224, 89, 72);
+      float: left;
+    }
+
+    .columns4-3 {
+      margin-left: 10px;
+      width: 200px;
+      height: 200px;
+      background-color: rgb(125, 38, 206);
+      float: left;
+    }
+
+    .columns4-4 {
+      margin-left: 10px;
+      width: 290px;
+      height: 200px;
+      background-color: rgb(26, 233, 181);
+      float: left;
+    }
+
+    /*
+    多行多列
+    */
+    .columns5 {
+      margin-top: 20px;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .columns5>ul {
+      background-color: bisque;
+    }
+
+    .columns5>ul>li {
+      height: 100px;
+      width: 190px;
+      margin: 5px;
+      float: left;
+      background-color: darkturquoise;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+    <div class="columns2">
+      <div class="columns2-1"></div>
+      <div class="columns2-2"></div>
+      <div class="clear"></div>
+    </div>
+
+    <div class="columns4 clearAfter">
+      <div class="columns4-1"></div>
+      <div class="columns4-2"></div>
+      <div class="columns4-3"></div>
+      <div class="columns4-4"></div>
+    </div>
+
+    <div class="columns5 clearAfter">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+
+  <script type='text/javascript'>
+
+  </script>
+</body>
+
+</html>

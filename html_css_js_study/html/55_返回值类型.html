@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    
+    
+    */
+    //普通返回
+    function fun() {
+      console.log('staart');
+      for (let i = 0; i < 5; i++) {
+        if (i == 2) {
+          //break  //结束循环
+          //continue //结束当次循环
+          return // 结束函数
+        }
+        console.log(i);
+      }
+      console.log('end');
+    }
+    fun()
+
+    //返回  对象
+    function fun2(o) {
+        o.name='xhc',
+        o.age = 21,
+        o.sex = 'boy';
+
+        return o
+    }
+    var obj = {
+      name: '123',
+      age: 1111,
+      sex: 'adf'
+    }
+    var res = fun2(obj)
+    console.log(res)
+
+    //返回  函数
+    function fun3(){
+      function fun4(){
+        console.log('i am fun4');
+        return 21
+      }
+      //return fun4();
+      return fun4
+    }
+    var res1 = fun3()
+    console.log(res1);
+    
+
+  </script>
+  <style></style>
+</body>
+
+</html>

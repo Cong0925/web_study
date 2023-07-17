@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    方法重用
+      使用 call() 方法，您可以编写能够在不同对象上使用的方法。
+      call() 方法是预定义的 JavaScript 方法。
+      它可以用来调用所有者对象作为参数的方法。
+      通过 call()，您能够使用属于另一个对象的方法。
+      call() 方法分别接受参数。
+        
+      通过 apply() 方法，您能够编写用于不同对象的方法。
+      apply() 方法接受数组形式的参数。
+      如果要使用数组而不是参数列表，则 apply() 方法非常方便。
+        
+        
+      JavaScript 严格模式
+      在 JavaScript 严格模式下，
+      如果 apply() 方法的第一个参数不是对象，
+      则它将成为被调用函数的所有者（对象）。
+      在“非严格”模式下，它成为全局对象。
+    
+    */
+
+    //fullName 属性是一个方法。person 对象是该方法的拥有者。
+    //fullName 属性属于 person 对象的方法。
+    var person = {
+      firstName: "Bill",
+      lastName: "Gates",
+      fullName: function () {
+        return this.firstName + " " + this.lastName;
+      }
+    }
+    person.fullName();		// 将返回 "Bill Gates"
+
+
+
+    var person = {
+      fullName: function () {
+        return this.firstName + " " + this.lastName;
+      }
+    }
+    var person1 = {
+      firstName: "Bill",
+      lastName: "Gates",
+    }
+    var person2 = {
+      firstName: "Steve",
+      lastName: "Jobs",
+    }
+    var txt1 = person.fullName.call(person1);  // 将返回 "Bill Gates"
+    var txt2 = person.fullName.call(person2);  // 将返回 "Steve Jobs"
+    document.write(txt1, '<br>', txt2, '<br>')
+
+
+    //call() 方法可接受参数：
+    var person = {
+      fullName: function (city, country) {
+        return this.firstName + " " + this.lastName + "," + city + "," + country;
+      }
+    }
+    var person1 = {
+      firstName: "Bill",
+      lastName: "Gates"
+    }
+    var txt3 = person.fullName.call(person1, "Seattle", "USA");
+    var txt4 = person.fullName.apply(person1, ["Oslo", "Norway"]);
+    document.write(txt3, '<br>', txt4)
+
+    var a = Math.max(1, 2, 3);  // 会返回 3
+    var b = Math.max.apply(null, [1, 2, 3]); // 也会返回 3
+    var c = Math.max.apply(Math, [1, 2, 3]); // 也会返回 3
+    var d = Math.max.apply(" ", [1, 2, 3]); // 也会返回 3
+    var e = Math.max.apply(0, [1, 2, 3]); // 也会返回 3
+    console.log(a, b, c, d, e)
+
+  </script>
+  <style></style>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    
+    浏览器的原因 不用写toString方法 
+    直接打印 console.log（obj1）即可打印出 对象属性
+    */
+    function Persion(name, age, sex) {
+      this.name = name
+      this.age = age
+      this.sex = sex
+      this.fun = function () {
+        this.name
+      }
+    }
+
+    var obj1 = new Persion('q', 12, 'qq')
+    var obj2 = new Persion('w', 13, 'ww')
+    console.log(obj1.toString());
+
+    console.log(obj1.__proto__.__proto__.hasOwnProperty('toString'));//true
+
+    //当我们直接在页面中打印一个对象时，
+    //事件上是输出的对象的tostring()方法的返回值
+    //如果我们希望在输出对象时不输出[object object]，
+    //可以为对象添加一个toString()
+    //Person[name=孙悟空,age=18,gender=男]/
+    obj1.tostring = function () {
+      return "person[name=" + this.name + ", age=" + this.age + "]"
+    }
+
+    Persion.prototype.toString = function () {
+      return "person[name=" + this.name + ", age=" + this.age + "]"
+    }
+
+    //console.log(obj1.__proto__.__proto__.hasOwnProperty("tostringconsole.log(per2);
+    console.log(obj1);
+    console.log(obj2);
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

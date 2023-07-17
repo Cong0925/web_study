@@ -1,0 +1,6 @@
+1. 下载/安装 node.js
+2. npm 全局安装 typescript
+    命令行 npm i -g typescript
+3. 创建 .ts文件
+4. 进入命令行 到ts所在目录 执行命令 生成对应的 .js文件
+    命令 tsc xxx.ts -w （可以自动检测变化编译）

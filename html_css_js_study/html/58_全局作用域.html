@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    全局作用域
+      页面打开时 创建 ，页面关闭时 销毁
+      创建的对象会作为 window对象的属性保存
+
+      变量的声明提前
+        使用var 声明变量 会在所有代码执行前声明，但是不会赋值
+
+      函数声明提前
+        使用 函数声明形式创建的函数 function fun(){}  ,在所有代码执行前创建
+        使用 函数表达式创建的函数，不会被提前声明，所以不可在声明前调用
+
+    局部作用域
+    
+    */
+    var a =10
+    console.log(window.a);
+    
+    function fun(){
+      console.log('i am fun');
+    }
+    window.fun()
+    window.console.log('i am window.console.log')
+
+
+    console.log(aa);  //undefined 此时不会报错
+    var aa = 11;
+
+    console.log(aaa);  //报错
+    aaa = 111
+    
+    
+    
+
+  </script>
+  <style></style>
+</body>
+</html>

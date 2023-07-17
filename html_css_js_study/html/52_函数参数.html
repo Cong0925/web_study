@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+
+    var fun = function(name,age){
+      console.log(name,age)
+    }
+    //多余的参数不报错  但也不会赋值
+    fun('asd',21,22,3141);
+    //缺少的参数  为 undefined
+    fun('name')
+    
+
+  </script>
+  <style></style>
+</body>
+</html>

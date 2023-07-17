@@ -1,0 +1,49 @@
+function fun(arr) {
+  let flag = 1
+  let rowsNum = arr[0].length
+  let rowStart = 0
+  
+  let linesNum = arr.length
+  let lineStart = arr.length -1
+
+  let rowsNumR = arr[0].length-1
+  let rowStartR = arr[0].length-1
+
+   let linesNumR = arr.length
+  let lineStartR = arr.length-1
+  
+ 
+  while(){
+       if(flag === 1){
+          for (let j = rowStart; j < rowsNum; j++) {
+              console.log(arr[j])
+          }
+          flag = 2
+          rowsNum -= 2
+          rowStart++
+          linesNum--
+      }
+      else if(flag === 2){
+          for (let i = rowStart; i < linesNum; i++) {
+              console.log(arr[rowStart][lineStart])
+          }
+          flag = 3
+          linesNum -= 2
+          lineStart--
+          rowsNumR--
+          rowStartR--
+      }
+      else if(flag === 3){
+          for (let j = rowStartR; j < rowsNumR; j++) {
+              console.log(arr[j])
+          }
+          flag = 4
+      }
+      else if(flag === 4){
+          for (let j = 0; j < arr[i].length; j++) {
+              console.log(arr[j])
+          }
+          flag = 0
+      }
+  }
+}

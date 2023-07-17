@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 600px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = '' + '<br>'
+
+    // set 声明  以及简单方法
+    function sept1() {
+      //声明一个 setlet s=new Set();
+      let s2 = new Set(['大事儿', '小事儿', '好事儿', '坏事儿', '小事儿'])
+
+      //元素个数
+      console.log(s2.size);
+
+      //添加新的元素
+      s2.add('1111');
+      console.log(s2);
+
+
+      //删除元素
+      s2.delete('坏事儿');
+      console.log(s2);
+
+      //检测
+      console.log(s2.has('槽心事'))
+
+      //清空
+      s2.clear();
+      console.log(s2);
+
+    }
+    sept1()
+
+    //  set 集合实践
+    function sept2() {
+      let arr = [11, 11, 22, 33, 44, 55, 66, 77, 88, 22, 33, 44, 55, 66, 99]
+
+      // 1 数组去重 
+      let res1 = [...new Set(arr)]
+      box1.innerHTML += res1 + '<br>'
+
+      // 2 交集
+      let arr2 = [11,22,33,33,22,11,111111,2222222,333333]
+      let res2 = res1.filter(item =>{
+        let s2 = new Set(arr2)
+        if(s2.has(item)){
+          return true
+        }
+        else{
+          return false
+        }
+      })
+      box1.innerHTML += res2 + '<br>'
+
+      let res3 = res1.filter(item => new Set(arr2).has(item))
+      box1.innerHTML += res3 + '<br>'
+
+
+      // 3 并集
+      let res4  = [...new Set([...arr,...arr2])]
+      box1.innerHTML += res4 + '<br>'
+      
+      //差集  arr2 有  arr 没有
+      let res5 = [...new Set(arr2)].filter(item => !(new Set(arr).has(item)))
+      box1.innerHTML += res5 + '<br>'
+      
+    }
+    sept2()
+    
+
+  </script>
+</body>
+
+</html>

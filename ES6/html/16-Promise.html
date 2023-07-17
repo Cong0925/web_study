@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    //实例化 promise   初始化  成功 失败 
+    var p = new Promise(function (resolve, reject) {
+      setTimeout(() => {
+        //let data = '获取数据 成功'
+        //resolve(data) // p 为成功
+
+        let err = '获取数据 失败'
+        reject(err)
+      }, 1000)
+    })
+
+
+    //p.then(fun1(成功){}，fun2(失败){})
+    // p.then(function (value) {
+    //   console.log(value);
+    // }, function (reason) {
+    //   console.log(reason);
+    // })
+
+    p.catch((reason => {
+      console.log(reason);
+
+    }))
+
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = '' + '<br>'
+
+  </script>
+</body>
+
+</html>

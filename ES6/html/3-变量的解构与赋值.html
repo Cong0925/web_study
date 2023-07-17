@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding:0px;
+    }
+    
+    #box1 {
+      width:300px;
+      height:300px;
+      background-color:red;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id='box1'>
+    
+  </div>
+  
+  <script type='text/javascript'>
+    
+    //数组解构
+    const arr = ['qqqq','wwww','eeee','rrrrr']
+    let arr_copy = arr
+    console.log(arr_copy);
+    
+    //对象解构  方法解构
+    const obj = {
+      name:'aa',
+      age: 20,
+      sex:'boy',
+      myfun:function(){
+        console.log('myfun');
+
+      }
+    }
+    let obj_copy = {name,age,sex} =obj
+    console.log(obj_copy);
+    let {myfun} = obj
+    myfun()
+    
+    
+    
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    
+    */
+    
+    function Persion(name, age, sex) {
+      this.name = name
+      this.age = age
+      this.sex = sex
+      this.fun = fun
+    }
+
+    function fun(){
+      console.log(this.name);
+    }
+
+    var obj1 = new Persion('q', 12, 'qq')
+    console.log(obj1);
+
+    var obj2 = new Persion('w', 13, 'ww')
+    console.log(obj2);
+
+    var obj3 = new Persion('e', 14, 'ww')
+    console.log(obj3);
+    
+    
+
+  </script>
+  <style></style>
+</body>
+</html>

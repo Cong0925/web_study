@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    #box1 {}
+
+    #btn1 {}
+
+    #box2 {
+      margin-top: 10px;
+      width: 600px;
+      height: 600px;
+      border: 1px solid black;
+      position: absolute;
+    }
+
+    #stop {
+      /* display: none; */
+      display: none;
+      text-align: center;
+      line-height: 400px;
+      font-size: 30px;
+
+    }
+
+    #stop span {
+      z-index: 990;
+    position: relative;
+    border: 5px solid black;
+    padding: 30px;
+    background-color: rgb(255 255 255 / 0.9);
+    }
+  </style>
+</head>
+
+<body>
+  <div id='box1'>
+    <button id="btn1">点击开始 </button>
+    <span id="span1"></span>
+    <p id="p1"></p>
+  </div>
+  <div id='box2'>
+    <div id="stop">
+      <span>···暂停中···</span>
+    </div>
+  </div>
+
+  <script type='text/javascript'>
+
+    var box1 = document.getElementById("box1") //按钮区域
+    var span1 = document.getElementById('span1') // 得分区域
+    span1.style.marginLeft = 10 + 'px'
+    var p1 = document.getElementById('p1')
+    p1.style.margin = '5px 0px'
+    var btn1 = document.getElementById('btn1') //start
+    var map = document.getElementById('box2') //游戏区域
+    var stopTip = document.getElementById('stop') //暂停提示
+
+    var game_width = parseInt(getComputedStyle(box2, null).width)   //game 宽度
+    var game_height = parseInt(getComputedStyle(box2, null).height) //game 高度
+
+    var SIZE = 20 //蛇的尺寸大小
+    var speed = 10 //初始速度
+    var isStart = false
+    var isStop = {
+      flag: false,
+      speed: 10,
+      period: 500
+    } //暂停
+    var period = 500  //最大速度
+    var score = 0 //得分
+    var timer;
+
+    //清空一次游戏数据
+    function clearDatas() {
+      speed = 10
+      period = 500
+      score = 0
+    }
+    //加载速度
+    function clearSpeed() {
+      clearInterval(timer)
+      timer = setInterval('snake.run()', period)
+    }
+    //加快速度
+    function updateSpeed() {
+      if (period > 0) {
+        if (period <= 100) {
+          speed += 10
+          period -= 10
+        }
+        else {
+          speed += 100
+          period -= 100
+        }
+      }
+    }
+    //显示得分
+    function showInfo() {
+      span1.innerHTML = '当前速度：' + speed + '\t' + '得分： ' + score
+    }
+    //操作提示
+    function showTips() {
+      p1.innerHTML = '上下左右：w s a d \u00A0\u00A0\u00A0\u00A0\u00A0'
+        + '加速: space \u00A0\u00A0\u00A0\u00A0'
+        + '开始/暂停：回车(Enter)'
+    }
+
+    function Snake() {
+      showInfo()
+      showTips()
+      this.direction = 'right';
+
+      this.body = [
+        { x: 2, y: 0 },   // 蛇头，第一个点
+        { x: 1, y: 0 },   // 蛇脖子，第二个点
+        { x: 0, y: 0 }    // 蛇尾，第三个点
+      ]
+
+      this.snakeShow =
+        function () {
+          for (var i = 0; i < this.body.length; i++) {
+            if (this.body[i].x != null) {   // 当吃到食物时，x==null，不能新建，不然会在0，0处新建一个
+              var s = document.createElement('div');
+              // 将节点保存到状态中，以便于后面删除
+              this.body[i].flag = s;
+              // 设置宽高
+              s.style.width = SIZE + 'px';
+              s.style.height = SIZE + 'px';
+              s.style.borderRadius = "50%";
+              s.style.background = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
+              // 设置位置
+              s.style.position = 'absolute';
+              s.style.left = this.body[i].x * SIZE + 'px';
+              s.style.top = this.body[i].y * SIZE + 'px';
+              // 添加进去
+              map.appendChild(s);
+            }
+          }
+        }
+
+      this.run =
+        function () {
+
+          // 后一个元素到前一个元素的位置
+          for (var i = this.body.length - 1; i > 0; i--) {
+            this.body[i].x = this.body[i - 1].x;
+            this.body[i].y = this.body[i - 1].y;
+          }
+
+          // 根据方向处理蛇头
+          switch (this.direction) {
+            case "left":
+              this.body[0].x -= 1;
+              break;
+            case "right":
+              this.body[0].x += 1;
+              break;
+            case "up":
+              this.body[0].y -= 1;
+              break;
+            case "down":
+              this.body[0].y += 1;
+              break;
+          }
+
+          // 判断是否出界,一蛇头判断,出界的话，
+          if (this.body[0].x < 0 || this.body[0].x > (game_width / SIZE - 1) || this.body[0].y < 0 || this.body[0].y > (game_height / SIZE - 1)) {
+            clearDatas()
+            showInfo()
+            isStart = false
+            clearInterval(timer);   // 清除定时器，
+            alert("你瞎吗？撞死了！");
+
+            // 删除旧的
+            for (var i = 0; i < this.body.length; i++) {
+              if (this.body[i].flag != null) {   // 如果刚吃完就死掉，会加一个值为null的
+                map.removeChild(this.body[i].flag);
+              }
+            }
+            this.body = [   // 回到初始状态，
+              { x: 2, y: 0 },
+              { x: 1, y: 0 },
+              { x: 0, y: 0 }
+            ];
+            this.direction = 'right';
+            this.snakeShow();   // 显示初始状态
+            return false;   // 结束
+          }
+
+          // 判断蛇头吃到食物，xy坐标重合，
+          if (this.body[0].x == food.x && this.body[0].y == food.y) {
+            score++
+            showInfo()
+            // 蛇加一节，因为根据最后节点定，下面display时，会自动赋值的
+            this.body.push({ x: null, y: null, flag: null });
+
+            // 清除食物,重新生成食物
+
+            map.removeChild(food.flag);
+            food.foodShow();
+
+          }
+
+          // 吃到自己死亡，从第五个开始与头判断，因为前四个永远撞不到
+          for (var i = 4; i < this.body.length; i++) {
+            if (this.body[0].x == this.body[i].x && this.body[0].y == this.body[i].y) {
+              clearDatas()
+              showInfo()
+              isStart = false
+              clearInterval(timer);   // 清除定时器，
+              alert("傻子！你怎么能吃自己呢？");
+              // 删除旧的
+              for (var i = 0; i < this.body.length; i++) {
+                if (this.body[i].flag != null) {   // 如果刚吃完就死掉，会加一个值为null的
+                  map.removeChild(this.body[i].flag);
+                }
+              }
+              this.body = [   // 回到初始状态，
+                { x: 2, y: 0 },
+                { x: 1, y: 0 },
+                { x: 0, y: 0 }
+              ];
+              this.direction = 'right';
+              this.snakeShow();   // 显示初始状态
+              return false;   // 结束
+            }
+          }
+
+          // 先删掉初始的蛇，在显示新蛇
+          for (var i = 0; i < this.body.length; i++) {
+            if (this.body[i].flag != null) {   // 当吃到食物时，flag是等于null，且不能删除
+              map.removeChild(this.body[i].flag);
+            }
+          }
+          // 重新显示蛇
+          this.snakeShow()
+        }
+    }
+
+
+    // 构造食物
+    function Food() {
+      this.foodShow = function () {
+        var f = document.createElement('div');
+        this.flag = f;
+        f.style.width = SIZE + 'px';
+        f.style.height = SIZE + 'px';
+        f.style.background = 'red';
+        f.style.borderRadius = '50%';
+        f.style.position = 'absolute';
+        this.x = Math.floor(Math.random() * 30);
+        this.y = Math.floor(Math.random() * 30);
+        f.style.left = this.x * SIZE + 'px';
+        f.style.top = this.y * SIZE + 'px';
+        map.appendChild(f);
+      }
+    }
+
+    var snake = new Snake()
+    snake.snakeShow()
+    var food = new Food()
+    food.foodShow()
+
+
+
+
+    //键盘事件
+    document.onkeydown = function (e) {
+      console.log(e.key);
+      switch (e.key) {
+        case 'w':
+          if (snake.direction != 'down') {   // 不允许返回，向上的时候不能向下
+            snake.direction = "up";
+          }
+          break;
+        case 'ArrowUp':
+          if (snake.direction != 'down') {   // 不允许返回，向上的时候不能向下
+            snake.direction = "up";
+          }
+          break;
+        case 's':
+          if (snake.direction != "up") {
+            snake.direction = "down";
+          }
+          break;
+        case 'ArrowDown':
+          if (snake.direction != "up") {
+            snake.direction = "down";
+          }
+          break;
+        case 'a':
+          if (snake.direction != "right") {
+            snake.direction = "left";
+          }
+          break;
+        case 'ArrowLeft':
+          if (snake.direction != "right") {
+            snake.direction = "left";
+          }
+          break;
+        case 'd':
+          if (snake.direction != "left") {
+            snake.direction = "right";
+          }
+          break;
+        case 'ArrowRight':
+          if (snake.direction != "left") {
+            snake.direction = "right";
+          }
+          break;
+        case 'Enter':
+          if (isStart === false) {
+            isStart = true
+            clearSpeed()
+          }
+          else {
+            console.log(isStart, isStop.flag)
+
+            if (isStop.flag === false) {
+              isStop.period = period
+              clearInterval(timer);   // 清除定时器，
+              stopTip.style.display = 'block';
+            }
+            else {
+              period = isStop.period
+              clearSpeed()
+              stopTip.style.display = 'none';
+            }
+            isStop.flag = !isStop.flag
+
+          }
+
+          break;
+        case ' ':
+          if (isStart === true && isStop.flag === false) {
+            updateSpeed()
+            clearSpeed()
+            showInfo()
+          }
+          break;
+      }
+    }
+
+
+    btn1.onclick = function () {
+      if (isStart === false) {
+        isStart = true
+      }
+      clearSpeed()
+    }
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <div id='main'>
+    <div id="list1">
+      <button id="btn1">创建节点</button>
+      <button id="btn2">插入节点</button>
+      <button id="btn3">替换节点</button>
+      <button id="btn4">删除节点</button>
+
+      <ul id="my_ul1">
+        <li class="my_li1">111</li>
+        <li class="my_li1" id="my_li555">用于替换</li>
+        <li class="my_li1" id="my_li666">用于删除</li>
+      </ul>
+
+
+    </div>
+  </div>
+  <script type='text/javascript'>
+    /*
+    //创建节点 
+      createElement(标签名) createTextNode（文本内容) appendChild(元素（节点)）
+    //创建节点 插入指定节点之前   insertBefore(newNode,oldNode)
+    //替换指定节点    replaceChild(newNode,oldNode)
+    //删除指定节点  removeChild(node)
+    
+    */
+    function myClick(btn, fun) {
+      var butn = document.getElementById(btn)
+      butn.onclick = fun
+    }
+
+    //创建节点 createElement(标签名) createTextNode（文本内容) appendChild(元素（节点)）
+    myClick('btn1', function () {
+      var li = document.createElement('li')
+      var txt = document.createTextNode('新增')
+      li.appendChild(txt)
+
+      var ul = document.getElementById('my_ul1')
+      ul.appendChild(li)
+    })
+
+    //创建节点 插入指定节点之前   insertBefore(newNode,oldNode)
+    myClick('btn2', function () {
+      var li = document.createElement('li')
+      var txt = document.createTextNode('插入')
+      li.appendChild(txt)
+
+      var my_li = document.getElementById('my_li555')
+      var parent = my_li.parentNode
+      parent.insertBefore(li, my_li)
+    })
+
+    //替换指定节点    replaceChild(newNode,oldNode)
+    myClick('btn3', function () {
+      var li = document.createElement('li')
+      var txt = document.createTextNode('替换')
+      li.appendChild(txt)
+
+      var my_li = document.getElementById('my_li555')
+      var parent = my_li.parentNode
+      parent.replaceChild(li, my_li)
+    })
+
+    //删除指定节点  removeChild()
+    myClick('btn4', function () {
+      var my_li = document.getElementById('my_li666')
+      var parent = my_li.parentNode
+      parent.removeChild(my_li)
+    })
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

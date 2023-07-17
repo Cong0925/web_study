@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      background-color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    //一定要有初始值
+    //一般用大写
+    //常量值不可修改
+    const A = 10
+    //A = 20 //会报错
+    //块级作用域
+    {
+      const B = 10
+    }
+    //console.log(B); // 报错undefined
+    
+    //对 数组 对象的修改 不算对 常量的修改
+    const arr = [1,2,3,4,5]
+    arr.push(111111)
+    console.log(arr); 
+    
+
+
+
+
+
+  </script>
+</body>
+
+</html>

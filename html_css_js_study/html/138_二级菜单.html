@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <script type='text/javascript' src='../js/index.js'></script>
+</head>
+<style>
+  .menu {}
+
+  .sollapsed {
+    height: 25px;
+    overflow: hidden;
+
+  }
+
+  .menuSpan {
+    display: block;
+
+  }
+
+  a {
+    display: block;
+  }
+</style>
+
+<body>
+  <div id='mymenu' class="menu">
+    <div>
+      <span class="menuSpan">在线练习</span>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+    </div>
+    <div class="sollapsed">
+      <span class="menuSpan">在线练习</span>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+    </div>
+    <div class="sollapsed">
+      <span class="menuSpan">在线练习</span>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+    </div>
+    <div class="sollapsed">
+      <span class="menuSpan">在线练习</span>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+      <a href="#">1111</a>
+    </div>
+  </div>
+  <script type='text/javascript'>
+    window.onload = function () {
+
+      var spanArr = document.getElementsByClassName("menuSpan")
+      var openDiv = spanArr[0].parentNode
+
+      for (let i = 0; i < spanArr.length; i++) {
+        spanArr[i].onclick = function () {
+
+          var parent = this.parentNode
+          toggleMenu(parent)
+
+          if (openDiv != parent && !hasClass(openDiv, 'sollapsed')) {
+            //toggleClass(openDiv, 'sollapsed')
+            toggleMenu(openDiv)
+          }
+
+          openDiv = parent
+        }
+      }
+
+      function toggleMenu(obj) {
+        var beginPosition = obj.offsetHeight
+
+        toggleClass(obj, 'sollapsed')
+
+        var endPosition = obj.offsetHeight
+
+        obj.style.height = beginPosition + 'px'
+        move(obj, 'height', endPosition, 10, function () {
+          obj.style.height = ''
+        })
+
+      }
+
+    }
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

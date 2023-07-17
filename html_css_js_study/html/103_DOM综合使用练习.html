@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+
+  <style>
+    .myTable {
+      border: 1px solid black;
+      width: 350px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='main'>
+    <div id="box1">
+      <table class="myTable">
+        <tr>
+          <td>Name</td>
+          <td>Email</td>
+          <td>Salary</td>
+          <td>edit</td>
+        </tr>
+        <tr>
+          <td>aa</td>
+          <td>aa</td>
+          <td>aa</td>
+          <td><a href="deleteEmp?id=001">delete</a></td>
+        </tr>
+        <tr>
+          <td>bb</td>
+          <td>bb</td>
+          <td>bb</td>
+          <td><a href="deleteEmp?id=002">delete</a></td>
+        </tr>
+        <tr>
+          <td>cc</td>
+          <td>cc</td>
+          <td>cc</td>
+          <td><a href="deleteEmp?id=003">delete</a></td>
+        </tr>
+
+      </table>
+    </div>
+
+    <div class="box2">
+      <h3>添加</h3>
+      <table class="myTable">
+        <tr>
+          <td class="word">name:</td>
+          <td class="inp">
+            <input type="text" name="empName" id="empName" />
+          </td>
+        </tr>
+        <tr>
+          <td class="word">email:</td>
+          <td class="inp">
+            <input type="text" name="email" id="email" />
+          </td>
+        </tr>
+        <tr>
+          <td class="word">salary:</td>
+          <td class="inp">
+            <input type="text" name="salary" id="salary" placeholder="" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <button id="add">
+              提交Node
+            </button>
+            <button id="add1">
+              提交innerHTML
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+  <script type='text/javascript'>
+
+    //删除功能
+    function del_fun() {
+       //清空 输入框
+       inp_name.value = ''
+       inp_email.value = ''
+       inp_salary.value = ''
+      var allA = document.getElementsByTagName('a');
+      for (let i = 0; i < allA.length; i++) {
+        allA[i].href = '#'
+        allA[i].onclick = function () {
+          let tr = this.parentNode.parentNode
+          let name = tr.getElementsByTagName('td')[0].innerHTML
+          let flag = confirm('确认删除 ' + name + '?')
+          if (flag) {
+            tr.parentNode.removeChild(tr)
+          }
+        }
+      }
+    }
+
+    //获取输入框内容
+    var inp_name = document.getElementById('empName')
+    var inp_email = document.getElementById('email')
+    var inp_salary = document.getElementById('salary')
+    //设置默认值
+    inp_name.placeholder = '默认name'
+    inp_email.placeholder = '默认email'
+    inp_salary.placeholder = '默认salary'
+
+    //提交按钮添加功能
+    var add_btn = document.getElementById('add')
+    var add_btn1 = document.getElementById('add1')
+    //通过节点添加
+    function addNode_fun() {
+      //创建 tr  节点
+      var tr = document.createElement('tr');
+
+      //创建 td  节点
+      var name_td = document.createElement('td')
+      var email_td = document.createElement('td')
+      var salary_td = document.createElement('td')
+      var edit_td = document.createElement('td')
+      var a = document.createElement('a')
+
+      //设置默认值
+      if (inp_name.value == '' && inp_email.value == '' && inp_salary.value == '') {
+        inp_name.value = inp_name.placeholder
+        inp_email.value = inp_email.placeholder
+        inp_salary.value = inp_salary.placeholder
+      }
+      //创建  文本节点
+      var name_text = document.createTextNode(inp_name.value)
+      var email_text = document.createTextNode(inp_email.value)
+      var salary_text = document.createTextNode(inp_salary.value)
+      var del_text = document.createTextNode('delete')
+
+      //文本节点添加到 td 节点
+      name_td.appendChild(name_text)
+      email_td.appendChild(email_text)
+      salary_td.appendChild(salary_text)
+      a.appendChild(del_text)
+      a.href = '#'
+      edit_td.appendChild(a)
+
+      //  td节点 添加到 tr节点  
+      tr.appendChild(name_td)
+      tr.appendChild(email_td)
+      tr.appendChild(salary_td)
+      tr.appendChild(edit_td)
+
+      //tr节点 添加到 table .tbody
+      var myTable = document.getElementsByClassName('myTable')[0]
+      var tbody = myTable.getElementsByTagName('tbody')[0]
+      tbody.appendChild(tr)
+
+      del_fun()
+
+    }
+
+    //通过 innerHTML 添加
+    function addInner_fun() {
+      //创建 tr  节点
+      var tr = document.createElement('tr');
+
+      //设置默认值
+      if (inp_name.value == '' && inp_email.value == '' && inp_salary.value == '') {
+        inp_name.value = inp_name.placeholder
+        inp_email.value = inp_email.placeholder
+        inp_salary.value = inp_salary.placeholder
+      }
+      tr.innerHTML = '<td>' + inp_name.value + '</td>' +
+        '<td>' + inp_email.value + '</td>' +
+        '<td>' + inp_salary.value + '</td>' +
+        '<td>' + "<a href='#'>delete</a>" + '</td>'
+
+        
+      //tr节点 添加到 table .tbody
+      var myTable = document.getElementsByClassName('myTable')[0]
+      var tbody = myTable.getElementsByTagName('tbody')[0]
+      tbody.appendChild(tr)
+     
+      del_fun()
+    }
+
+
+    add_btn.onclick = addNode_fun
+    add_btn1.onclick = addInner_fun
+
+
+    window.onload = function () {
+      del_fun()
+    }
+
+  </script>
+  <style></style>
+</body>
+
+</html>

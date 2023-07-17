@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    #box2 {
+      margin-top: 20px;
+      border: 1px solid black;
+      //background-color: greenyellow;
+      position: absolute;
+    }
+
+    #box3 {}
+
+    #box4 {
+      position: relative;
+      background-color: blue
+    }
+    #box5{
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='box1'></div>
+  <div id='box5'></div>
+
+
+  <div id="box2">
+    <div id='box3'>
+    </div>
+    <div id='box4' style="">
+    </div>
+  </div>
+
+
+
+
+  <script type='text/javascript'>
+
+    var box1 = document.getElementById('box1')
+    var box5 = document.getElementById('box5')
+    var total_box = document.getElementsByTagName('div')
+
+    var count = 0
+    var score = 0
+    function showTime() {
+      box1.innerHTML = '计时器：' + count 
+      count++
+    }
+    function showScore(){
+      box5.innerHTML = '得分：' + score 
+    }
+    setInterval(showTime, 1000) // 1
+    setInterval(showScore, 100) 
+
+
+
+    var SIZE = 20
+
+    var box2 = document.getElementById('box2')//容器
+    box2.style.width = 1000 + 'px'
+    box2.style.height = 800 + 'px'
+
+    var box4 = document.getElementById('box4')//snake
+    box4.style.height = SIZE + 'px'
+    box4.style.width = SIZE + 'px'
+    box4.style.top = SIZE + 'px'
+    box4.style.left = SIZE + 'px'
+    box4.style.zIndex = 999
+
+    //food随机生成
+    var food_add = 0
+    function createFood() {
+      var food_total = document.getElementsByTagName('div')
+      if (food_total.length == 20) {
+        return 0
+      }
+      else {
+        var box = document.createElement('div')//food
+        box.style.height = SIZE + 'px'
+        box.style.width = SIZE + 'px'
+        box.style.backgroundColor = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
+        box.id = 'food' + food_add
+
+        box.style.position = 'absolute'
+        box.style.left = SIZE * Math.round(Math.random() * 45) + 'px'
+        box.style.top = SIZE * Math.round(Math.random() * 35) + 'px'
+        box2.appendChild(box)
+
+        food_add++
+      }
+    }
+    setInterval(createFood, 2000) //2
+
+    //food 消失
+    var food_del = 0
+    function delFood() {
+      var del = document.getElementById('food' + food_del)
+      //console.log(del);
+      box2.removeChild(del)
+      food_del++
+    }
+    setInterval(delFood, 4000)//3
+
+    var snake_left = ''
+    var snake_top = ''
+    var snake_width = parseInt(getComputedStyle(box4, null).width)
+    var snake_height = parseInt(getComputedStyle(box4, null).height)
+    var box_width = parseInt(getComputedStyle(box2, null).width)
+    var box_height = parseInt(getComputedStyle(box2, null).height)
+    //获取 snake 位置
+    function getSnakePosition() {
+      snake_left = parseInt(getComputedStyle(box4, null).left)
+      snake_top = parseInt(getComputedStyle(box4, null).top)
+      //console.log(snake_left, snake_top, box_width, box_height);
+    }
+
+    //snake 移动范围
+    function snakeMoveArea() {
+      getSnakePosition()
+      if (snake_top == 0 && snake_left == 0) {
+        return 'wa'
+      }
+      else if (snake_top == 0 && (snake_left == box_width - snake_width)) {
+        return 'wd'
+      }
+      else if ((snake_top == box_height - snake_height) && snake_left == 0) {
+        return 'sa'
+      }
+      else if ((snake_top == box_height - snake_height) && (snake_left == box_width - snake_width)) {
+        return 'sd'
+      }
+      else if (snake_left == 0) {
+        return 'a'
+      }
+      else if (snake_top == 0) {
+        return 'w'
+      }
+      else if (snake_left == box_width - snake_width) {
+        return 'd'
+      }
+      else if (snake_top == box_height - snake_height) {
+        return 's'
+      }
+
+      else {
+        return 'm'
+      }
+    }
+
+    //snake  移动
+    document.onkeydown = function (e) {
+      var speed = SIZE
+      var flag = ''
+      flag = snakeMoveArea()
+      //console.log(flag, e.key, box4.offsetTop);
+      switch (e.key) {
+        case 'w': {
+          if (flag == 'w' || flag == 'wa' || flag == 'wd') {
+            return
+          }
+          else {
+            box4.style.top = box4.offsetTop - speed + 'px'
+          }
+          break
+        };
+        case 's': {
+          if (flag == 's' || flag == 'sa' || flag == 'sd') {
+            return
+          }
+          else {
+            box4.style.top = box4.offsetTop + speed + 'px'
+          }
+          break
+        };
+        case 'a': {
+          if (flag == 'a' || flag == 'wa' || flag == 'sa') {
+            return
+          }
+          else {
+            box4.style.left = box4.offsetLeft - speed + 'px'
+          }
+          break
+        };
+        case 'd': {
+          if (flag == 'd' || flag == 'wd' || flag == 'sd') {
+            return
+          }
+          else {
+            box4.style.left = box4.offsetLeft + speed + 'px'
+          }
+          break
+        }
+      }
+      eat_food()
+    }
+
+    // eat food
+    function eat_food() {
+      var get_all_food = document.getElementsByTagName('div')
+      var food_left = ''
+      var foot_top = ''
+      for (let i = 5; i < get_all_food.length; i++) {
+        food_left = parseInt(getComputedStyle(get_all_food[i], null).left)
+        foot_top = parseInt(getComputedStyle(get_all_food[i], null).top)
+        console.log(food_left,foot_top);
+        console.log(snake_left,snake_top);
+        if (food_left == snake_left && foot_top == snake_top) {
+          score += 1
+          box2.removeChild(get_all_food[i])
+        }
+        //console.log(get_all_food[i]);
+      }
+    }
+    //setInterval(eat_food, 100)//3
+
+    
+  </script>
+  <style></style>
+</body>
+
+</html>

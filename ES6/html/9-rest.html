@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = '' + '<br>'
+    // ES6 rest 只针对 数组  ES9 为对象提供 rest
+    // ES6 引入 rest 代替  arguments  
+    //ES5 获取实参  arguments 是 Object 类型
+    function ES6_rest() {
+      function fun1() {
+        console.log(typeof arguments, arguments);
+      }
+      fun1('qqq', 111, 222, 333)
+
+      //ES6  获取实参  args 是 Array 数组   ...args必须放最后
+      var fun2 = (name, a, ...args) => {
+        console.log(typeof args, args);
+      }
+      fun2('qqq', 111, 222, 333)
+    }
+    //ES6_rest()
+
+    //ES9   rest
+    function ES9_rest() {
+      function show_info({ host, port, ...user }) {
+        box1.innerHTML += host + '<br>'
+        box1.innerHTML += port + '<br>'
+        box1.innerHTML += user + '<br>'
+      }
+      show_info({
+        host: 'localhost',
+        port: 3306,
+        user: 'root',
+        psd: '123456'
+      })
+    }
+    ES9_rest()
+
+    // rest 对象合并
+    function obj_sum() {
+      let q = {
+        q: 'qqqq'
+      }
+      let w = {
+        w: 'wwww'
+      }
+      let e = {
+        e: 'eeee'
+      }
+      let r = {
+        r: 'rrrr'
+      }
+      let move = { ...q, ...w, ...e, ...r }
+      console.log(move);
+    }
+    obj_sum()
+
+
+
+  </script>
+</body>
+
+</html>

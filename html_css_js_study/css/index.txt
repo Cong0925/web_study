@@ -1,0 +1,25 @@
+CSS 选择器优先级
+
+1. !important
+2. 内联样式 style
+3. #id
+4. .box:hover伪类选择器, > [name = box]属性选择器，= .box类选择器，> div元素选择器
+
+.box:hover伪类选择器： :link  :visited  :hover  :active
+
+!important > 内联样式 style  > #id > 伪类选择器 > 属性选择器 = 类选择器 > 元素选择器
+
+
+伪类，伪元素
+伪类：
+  状态类： :link(未访问，链接) , :visited(), :hover(悬停), :active(激活), :focus(获取焦点)
+  结构类： :first-child, :last-child, nth-child, nth-of-type
+  表单类： :checked(勾选表单), :disabled, :valid, :required
+  语言类： :dir, :lang
+
+伪元素：
+  ::before  ::after
+  ::first-letter  ::first-line
+  ::selection(选中文本)
+  ::placeholder(选择表单元素的占位符文本)
+  ::backdrop(选择对话框背景元素)

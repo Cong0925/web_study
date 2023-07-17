@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #btn1 {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="btn1">获取数据</button>
+  <ul id="myUl">
+
+  </ul>
+  <script type='text/javascript'>
+    var btn1 = document.getElementById('btn1')
+    var myUl = document.getElementById('myUl')
+
+
+    btn1.onclick = function () {
+      var x = new XMLHttpRequest()
+
+      //x.open('GET', 'http://www.xiongmaoyouxuan.com:80/api/tabs')
+      x.open('GET', 'http://127.0.0.1:5500/AJAX/JS/index.js')
+      
+      x.send()
+      x.onload = function () {
+        if (x.status == 200) {
+          var jsondata = JSON.parse(x.response)
+          render(jsondata)
+        }
+      }
+
+    }
+    function render(jsondata) {
+      console.log(jsondata.data.list);
+      var html = jsondata.data.list.map(item =>
+        `
+      <li>
+        <img src="${item.imageUrl}"/>
+        <div>${item.name}</div>
+      </li>
+      
+      `
+      )
+      myUl.innerHTML = html.join("")
+    }
+
+
+
+  </script>
+</body>
+
+</html>

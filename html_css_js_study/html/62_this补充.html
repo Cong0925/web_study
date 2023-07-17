@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    var name ='全局'
+
+    function fun(){
+      console.log(this.name);
+    }
+
+    var o1 = {
+      name:'1',
+      age:11,
+      fun:fun
+    }
+    var o2 = {
+      name:'2',
+      age:22,
+      fun:fun
+    }
+    var o3 = {
+      name:'3',
+      age:33,
+      fun:fun
+    }
+    
+    o1.fun()
+    o2.fun()
+    o3.fun()
+    fun()
+
+
+  </script>
+  <style></style>
+</body>
+</html>

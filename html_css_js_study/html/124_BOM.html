@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <div id="box1">
+    <h1>124BOM</h1>
+    <a href="111_event.html">GO 111_event.html</a>
+  </div>
+  <p id="p1"></p>
+  <button id="btn1">btn1</button>
+  <script type='text/javascript'>
+    /*
+    BOM
+      -浏览器对象模型
+      —BOM可以使我们通过JS来操作浏览器
+      —在BOM中为我们提供了一组对象，用来完成对浏览器的操作- 
+      BOM对象
+
+      Window
+          —代表的是整个浏览器的窗口，同时window也是网页中的全局对象
+      
+      Navigator
+          —代表的当前浏览器的信息，通过该对象可以来识别不同的浏览器
+      
+      Location
+          一代表当前浏览器的地址栏信息，通过Location可以获取地址栏信息，或者操作浏览器跳转页面
+      
+      History
+          一代表浏览器的历史记录，可以通过该对象来操作浏览器的历史记录
+          由于隐私原因，该对象不能获取到具体的历史记录，只能操作浏览器向前或向后翻页而且该操作只在当次访问时有效
+      
+          history.back()
+          history.forward()
+          history.go(-2)
+
+
+          *assign()
+                
+           ＊—用来跳转到其他的页面，作用和直接修改1ocation一样
+           //location.assign("http://www.baidu.com");
+           
+           *reload()
+           一用于重新加载当前页面，作用和刷新按钮一样
+           —如果在方法中传递一个true，作为参数，则会强制清空缓存刷新页面
+           //location.reload(true);
+             
+           * replace()
+           —可以使用一个新的页面替换当前页面，调用完毕也会跳转页面
+           不会生成历史记录，不能使用回退按钮回退
+                
+                
+
+
+      Screen
+          一 代表用户的屏幕的信息，通过该对象可以获取到用户的显示器的相关的信息
+    
+    */
+
+    function fun() {
+      if (/firefox/i.test(navigator.userAgent)) {
+        console.log('火狐')
+      }
+      else if (/edg/i.test(navigator.userAgent)) {
+        console.log('edg')
+      }
+      else if (/msie/i.test(navigator.userAgent)) {
+        console.log('IE')
+      }
+    }
+    fun()
+    console.log(history.length)
+
+
+    var btn1 = document.getElementById('btn1')
+    var p1 = document.getElementById('p1')
+
+    //location 地址
+    btn1.onclick = function () {
+      p1.innerHTML = location
+    }
+
+
+
+
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

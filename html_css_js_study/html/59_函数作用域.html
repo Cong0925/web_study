@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<body>
+  <script type='text/javascript'>
+    /*
+    函数作用域
+      在函数内部使用  函数之间作用域相互独立
+      函数作用域中可以访问全局变量，全局不可访问函数作用域的变量
+
+      函数作用域中使用未量  会先在自身作用域寻找，没有则 向上一级继续寻找
+      全局 作用域仍未找到，则报错
+
+    */
+
+    var a =10
+    var b = 20
+    function fun(){
+      console.log('a:'+a);
+      var a = 20
+
+      console.log('b:'+b);
+      b = 10
+    }
+    fun()
+    console.log(a,b);
+    
+    
+    
+
+  </script>
+  <style></style>
+</body>
+</html>

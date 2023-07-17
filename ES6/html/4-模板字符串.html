@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding:0px;
+    }
+    
+    #box1 {
+      width:300px;
+      height:300px;
+      margin-top:10px;
+      margin-left:10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id='box1'>
+    
+  </div>
+  
+  <script type='text/javascript'>
+    
+    // ES6 新引入的 字符串声明方式 ``
+    let str1  = `string`
+    console.log(str1,typeof str1);
+    
+    // 内容中可以直接换行
+    let str2 = `<ul>
+      <li>1111</li>
+      <li>2222</li>
+      <li>3333</li>
+      <li>4444</li>
+    </ul>`
+
+    //变量拼接   ${变量名} 
+    let name = 'xhc'
+    let c = '${name} is my god!'
+    let content = `${name} is my god!`
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = str1 + '<br>'
+    + str2 + '<br>'
+    + c + '<br>'
+    + content + '<br>'
+
+
+
+  </script>
+</body>
+</html>

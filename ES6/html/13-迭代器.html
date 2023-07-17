@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    var box1 = document.getElementById('box1')
+
+    var arr = ['aaa', 'bbb', 'ccc', 'ddd']
+    for (let v of arr) {
+      //box1.innerHTML += v + '<br>'
+    }
+    //arr.forEach(e=>  box1.innerHTML += e + '<br>')
+
+    var obj = {
+      name: 'qqq',
+      age: 12,
+      sex: 'www',
+      other: 'eee'
+    }
+    for (let l in obj) {
+      //console.log(l);
+    }
+
+
+    //  迭代器介绍
+    var interator = arr[Symbol.iterator]()
+    function interator_next() {
+      console.log(interator);
+      console.log(interator.next());
+      console.log(interator.next());
+      console.log(interator.next());
+      console.log(interator.next());
+      console.log(interator.next());
+      console.log(interator.next());
+      console.log(interator.next());
+    }
+    //interator_next()
+
+
+    //  对象 的 数组属性添加 迭代器 
+    var obj1 = {
+      name: 'obj1',
+      stus: [
+        'aaaa',
+        'bbbb',
+        'cccc'
+      ],
+      stus1: [
+        'aaaa',
+        'bbbb',
+        'cccc'
+      ],
+      [Symbol.iterator]() {
+        let index = 0
+        let _this = this
+        return {
+          next: function () {
+            if (index < _this.stus.length) {
+              let res = { value: _this.stus[index], done: false }
+              index++
+              return res
+            }
+            else {
+              return {value: undefined, done: true}
+            }
+          }
+        }
+      }
+    }
+    for(let v of obj1){
+      console.log(v);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

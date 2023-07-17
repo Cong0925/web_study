@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    var box1 = document.getElementById('box1')
+    box1.innerHTML += '' + '<br>'
+
+    //  命名捕获分组
+    function catch_fun() {
+      let str = '<a href="https://www.baidu.com">百度</a>'
+      let reg = /<a href="(?<url>.*)">(?<text>.*)<\/a>/
+      let res = reg.exec(str)
+      console.log(res);
+      box1.innerHTML += '<a href="' + res.groups.url + '">' + res.groups.url + '</a>' + '<br>'
+      box1.innerHTML += res.groups.text + '<br>'
+    }
+    catch_fun()
+
+    //  反向断言
+    function fun1() {
+      let str = '120201080320@ncepu.edu.cn'
+      // 正向断言  根据后面的内容判断 是否符合
+      let reg = /(?<num>\d+(?=@))/
+      let res = reg.exec(str)
+      console.log(res);
+      box1.innerHTML += res.groups.num + '<br>'
+
+      // 反向断言 根据前面的内容判读那 是否符合
+      let reg1 = /(?<adress>(?<=@)\S+)/
+      let res1 = reg1.exec(str)
+      console.log(res1);
+      box1.innerHTML += res1.groups.adress + '<br>'
+    }
+    fun1()
+
+    //dotAll 模式 .
+    function fun2() {
+      let str = `<ul>
+        <li>
+          <a>name 1</a>
+          <p>time 1</p>
+        </li>
+        <li>
+          <a>name 2</a>
+          <p>time 2</p>
+        </li>
+        <li>
+          <a>name 3</a>
+          <p>time 3</p>
+        </li>
+        <li>
+          <a>name 4</a>
+          <p>time 4</p>
+        </li>
+      </ul>
+      `
+      let reg = /<li>.*?<a>(.*?)<\/a>.*?<p>(.*?)<\/p>/gs
+      let data = []
+      while (res = reg.exec(str)) {
+        console.log(res);
+        box1.innerHTML += res[1] + '<br>'
+        box1.innerHTML += res[2] + '<br>'
+        data.push({ title: res[1], time: res[2] })
+
+      }
+      console.log(data);
+
+    }
+    fun2()
+
+
+
+
+  </script>
+</body>
+
+</html>

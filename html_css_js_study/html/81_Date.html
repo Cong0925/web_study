@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    Data表示时间
+    
+    */
+    //创建指定日期
+    var a = new Date('12/12/2023 12:12:12')
+    document.write(a, '<br>')
+
+    //此方法封装的是当前代码执行时间
+    var a = new Date();
+    document.write(a, '<br>')
+
+    var date = a.getDate() // 当前日期 /日
+    document.write(date, '<br>')
+
+    var day = a.getDay() //当前周几  0-6 
+    document.write(day, '<br>')
+
+    var month = a.getMonth() //当前月份 0-11
+    document.write(month + 1, '<br>')
+
+    var year = a.getFullYear() // 年份
+    document.write(year, '<br>')
+
+
+    //时间戳  1970/1/1 00：00：00 至今 毫秒数
+    var time = a.getTime()
+    document.write(time, '<br>')
+
+    //当前时间戳
+    var now = Date.now()
+    document.write(now, '<br>')
+
+    var t1 = Date.now()
+    for (let i = 0; i < 100000000; i++) {
+
+    }
+    var t2 = Date.now()
+    var t3 = t2 - t1
+    document.write(t3, '<br>')
+
+  </script>
+  <style></style>
+</body>
+
+</html>

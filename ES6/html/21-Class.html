@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    var box1 = document.getElementById('box1')
+
+    //ES5 构造方法
+    function ES5_fun() {
+      function Phone(brand, price) {
+        this.brand = brand
+        this.price = price
+      }
+      Phone.prototype.call = function () {
+        box1.innerHTML += 'call me' + '<br>'
+      }
+
+      let HUAWEI = new Phone('huawei', 8888)
+      HUAWEI.call()
+      console.log(HUAWEI);
+      box1.innerHTML += HUAWEI + '<br>'
+    }
+    ES5_fun()
+
+    //ES6 构造方法
+    function ES6_fun() {
+      //构造方法 名称不可修改
+      class Phone {
+        constructor(brand, price) {
+          this.brand = brand
+          this.price = price
+        }
+        call() {
+          box1.innerHTML += 'call me again' + '<br>'
+        }
+      }
+      let apple = new Phone('apple', 9999)
+      apple.call()
+      console.log(apple);
+    }
+    ES6_fun()
+
+    //ES5 静态成员
+    function ES5_static() {
+      // 原型对象
+      function Phone() {
+
+      }
+      //函数对象     name,change  属于 Phone 这个函数对象，不属于 实例对象 静态成员
+      Phone.name = 'aaa'
+      Phone.change = function () {
+        box1.innerHTML += 'static ES5' + '<br>'
+      }
+      Phone.prototype.fun = function () {
+        box1.innerHTML += 'Phone.prototype.fun' + '<br>'
+      }
+
+      //实例对象 通向的是原型对象 和 函数对象不通
+      let aaa = new Phone()
+      box1.innerHTML += aaa.name + '<br>'
+      aaa.fun()
+      //aaa.change()  //报错 aaa 没有 change这个方法
+    }
+    ES5_static()
+
+    //ES6 静态成员
+    function ES6_static() {
+        class Phone1{
+          //static 声明变量 属于 Phone1 这个类 不属于下面的实例对象
+          static name= 'Phone1'
+          static change(){
+            box1.innerHTML += 'ES6_static class static change' + '<br>'
+          }
+        }
+        let bbb = new Phone1()
+        box1.innerHTML += bbb.name + '<br>'
+        box1.innerHTML += Phone1.name + '<br>'
+    }
+    ES6_static()
+
+
+
+  </script>
+</body>
+
+</html>

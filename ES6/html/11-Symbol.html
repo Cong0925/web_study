@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    // Symbol 类似于字符串的数据类型
+    // 1 键值唯一 解决命名冲突
+    // 2 不能进行运算
+    // 3 定义的对象属性 不能用 for..in 便利  可以用 reflect.ownKeys 获取对象所有键名
+
+    let a = Symbol()
+    console.log(a, typeof a);
+
+    let a1 = Symbol('a1')
+    let a2 = Symbol('a1')
+    console.log(a1, typeof a1, a1 === a2);
+
+    let a3 = Symbol.for('a3')
+    let a4 = Symbol.for('a3')
+    console.log(a3, typeof a3, a3 === a4);
+
+    // USONB  七种数据类型
+    // U  undefined
+    // S  string  symbol
+    // O  object
+    // N  number null
+    // B  boolean
+
+
+    //  给对象 添加属性, 方法
+    var game = {
+      name: 'qq',
+      age: 11,
+      [Symbol('sex')]:'boy',
+      [Symbol('only1')]: function () {
+        console.log('i am only1');
+      },
+      up: function () {
+        console.log('i am up');
+      },
+      down: function () {
+        console.log('i am down');
+      }
+    }
+
+    var methods = {
+      up: Symbol('new up'),
+      down: Symbol('new down'),
+    }
+
+    game[methods.up] = function () {
+      console.log('i am symbol up');
+    }
+    game[methods.down] = function () {
+      console.log('i am symbol down');
+    }
+
+    console.log(game);
+
+
+
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = '' + '<br>'
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    body {
+      width: 10000px;
+      height: 10000px;
+    }
+
+    #box1 {
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      position: absolute;
+    }
+
+    #box2 {
+      width: 100px;
+      height: 100px;
+      background-color: yellow;
+      position: absolute;
+      left: 200px;
+      top: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box1"></div>
+  <div id="box2"></div>
+
+  <script type='text/javascript'>
+
+    var box1 = document.getElementById('box1')
+
+    //拖拽 练习
+    box1.onmousedown = function (e) {
+      var s_left = e.pageX - box1.offsetLeft
+      var s_top = e.pageY - box1.offsetTop
+      box1.innerHTML = ' e.pageX:' + e.pageX + '<br>'
+        + 'e.pageY:' + e.pageY + '<br>'
+        + 'box1.offsetLeft:' + box1.offsetLeft + '<br>'
+        + 'box1.offsetTop:' + box1.offsetTop + '<br>'
+        + 's_left:' + s_left + '<br>'
+        + 's_top:' + s_top + '<br>'
+
+      document.onmousemove = function (e) {
+        var left = e.pageX
+        var top = e.pageY
+
+        box1.style.left = left - s_left + 'px'
+        box1.style.top = top - s_top + 'px'
+      }
+      document.onmouseup = function () {
+        document.onmousemove = null
+        document.onmouseup = null
+      }
+      return false
+    }
+
+    //滚轮练习
+    box1.onwheel = function (e) {
+      var hgh = parseInt(getComputedStyle(box1, null).height)
+      var wth = parseInt(getComputedStyle(box1, null).width)
+      if (e.wheelDelta > 0) {
+        box1.style.height = hgh + 20 + 'px'
+        box1.style.width = wth + 20 + 'px'
+
+      }
+      else {
+        if (hgh > 20) {
+          box1.style.height = hgh - 20 + 'px'
+          box1.style.width = wth - 20 + 'px'
+
+        }
+      }
+      return false
+    }
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+  <script type='text/javascript'>
+    /*
+    utils/常用正则 
+       i 忽略
+       g 全局
+
+
+    a|b = [ab] a或b
+    [a-z]任意小写
+    /a[bdsn]c/i   部分字母不同的或 abc anc adc asc
+    [^ab]  除了ab以外 存在即为true
+    [0-9]  任意数字
+    [^0-9] 除了数字
+
+
+    */
+
+    var reg = new RegExp('a', 'i');
+    var str = 'a';
+
+    var res = reg.test(str)
+    console.log(res);
+
+    console.log(reg.test('sssA'));
+
+    //字面量创建正则表达式
+    reg = /s/i;
+    console.log(reg.test('sssA'));
+
+    //或
+    reg = /a|b|c/i
+    console.log(reg.test('adasddas'), reg.test('bff'), reg.test('css'));
+    reg = /[ab]/i
+    console.log(reg.test('adasddas'), reg.test('bff'), reg.test('css'));
+
+    //[a-z]任意小写
+    reg = /[a-z]/
+    console.log(reg.test('asd'));
+    reg = /[A-Z]/
+    console.log(reg.test('asd'));
+    reg = /[a-z]/i  // reg = /[A-z]
+    console.log(reg.test('ASD'));
+
+    //部分字母不同的或 abc anc adc asc
+    reg = /a[bdsn]c/i
+    console.log(reg.test('masc'),reg.test('adc'),reg.test('aac'));
+
+    //[^ab]  除了ab以外 存在即为true
+    reg = /[^ab]/i
+    console.log(reg.test('masc'),reg.test('ab'),reg.test('a'));
+    
+
+
+
+
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

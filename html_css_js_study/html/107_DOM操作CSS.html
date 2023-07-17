@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    .box1 {
+      margin-top: 20px;
+      width: 200px;
+      height: 200px;
+      background-color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <button class="btn1">修改内联</button>
+    <button class="btn2">读取内联</button>
+    <button class="btn3">修改</button>
+    <button class="btn4">读取正在显示样式</button>
+
+  </div>
+  <div class='box1'></div>
+  <script type='text/javascript'>
+    /*
+    通过JS修改元素的样式。
+       内联样式 语法：元素，style.样式名= 样式值
+       ！！！！只有IE支持 正在显示的样式  元素.currentStyle.样式名 
+       getComputedStyle(元素,null)
+
+    注意：如果CSS的样式名中含有—
+        这种名称在JS中是不合法的比如background—color
+        需要将这种样式名修改为驼峰命名法
+        去掉—，然后将—后的字母大写
+
+      我们通过style属性设置的样式都是内联样式。
+        而内联样式有较高的优先级，所以通过JS修改的样式往往会立即显示
+
+      但是如果在样式中写了！important，则此时样式会有最高的优先级，即使通过JS也不能覆盖该样式，此时将会导致JS修改样式失效
+        所以尽量不要为样式添加！important
+    */
+
+
+    var box1 = document.getElementsByClassName('box1')[0]
+
+    var btn1 = document.getElementsByClassName('btn1')[0]
+    var btn2 = document.getElementsByClassName('btn2')[0]
+    var btn3 = document.getElementsByClassName('btn3')[0]
+    var btn4 = document.getElementsByClassName('btn4')[0]
+
+    //内联样式修改  优先级高
+    btn1.onclick = function () {
+      box1.style.width = '500px'
+      box1.style.height = '500px'
+      box1.style.backgroundColor = 'yellow'
+    }
+    //读取样式  读取的是内联样式 
+    btn2.onclick = function () {
+      console.log(box1.style.width);
+      console.log(box1.style.backgroundColor);
+    }
+
+    //读取正在显示样式
+    btn4.onclick = function () {
+      let width = getComputedStyle(box1, null).width
+      let color = getComputedStyle(box1, null).backgroundColor
+      console.log(color, width);
+    }
+
+
+
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    #box1 {
+      width: 300px;
+      height: 300px;
+      margin-top: 10px;
+      margin-left: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box"></div>
+  <div id='box1'>
+
+  </div>
+
+  <script type='text/javascript'>
+    var box1 = document.getElementById('box1')
+    var box = document.getElementById('box')
+    var tim = 1
+    setInterval(() => {
+      box.innerHTML = tim + '<br>'
+      tim++
+    }, 1000)
+
+
+
+    // 第 i 秒 输出 iii
+    //回调地狱写法
+    /*
+    setTimeout(() => {
+      box1.innerHTML += 111 + '<br>'
+      setTimeout(() => {
+        box1.innerHTML += 222 + '<br>'
+        setTimeout(() => {
+          box1.innerHTML += 333 + '<br>'
+        }, 3000)
+      }, 2000)
+    }, 1000)
+    */
+
+    // 生成器函数写法
+    function one() {
+      setTimeout(() => {
+        box1.innerHTML += 111 + '<br>'
+        iterator1.next()
+      }, 1000)
+    }
+    function two() {
+      setTimeout(() => {
+        box1.innerHTML += 222 + '<br>'
+        iterator1.next()
+      }, 2000)
+    }
+    function three() {
+      setTimeout(() => {
+        box1.innerHTML += 333 + '<br>'
+      }, 3000)
+    }
+    function* fun1() {
+      yield one()
+      yield two()
+      yield three()
+    }
+    var iterator1 = fun1()
+    //iterator1.next()
+
+
+    // 场景2  获取 用户数据 订单数据 商品数据
+    function getUserInfo() {
+      setTimeout(() => {
+        let data = '用户数据'
+        iterator2.next(data)
+      }, 1000)
+    }
+    function getOrderInfo() {
+      setTimeout(() => {
+        let data = '订单数据'
+        iterator2.next(data)
+      }, 1000)
+    }
+    function getGoodsInfo() {
+      setTimeout(() => {
+        let data = '商品数据'
+        iterator2.next(data)
+      }, 1000)
+    }
+
+    function* fun2() {
+      let user = yield getUserInfo()
+      box1.innerHTML += user + '<br>'
+      let order= yield getOrderInfo()
+      box1.innerHTML += order + '<br>'
+      let goods = yield getGoodsInfo()
+      box1.innerHTML += goods + '<br>'
+    }
+    var iterator2 = fun2()
+    iterator2.next()
+
+
+  </script>
+</body>
+
+</html>

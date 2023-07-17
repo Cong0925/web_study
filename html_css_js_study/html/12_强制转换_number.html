@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+
+<body>
+
+  <div>
+
+  </div>
+
+  <script type='text/javascript'>
+    /*
+    
+    强制转换 
+    1 Number
+    2 parseInt
+    3 parseFloat
+    */
+    //正常数字
+    var a = "123541"
+    console.log(typeof a);
+
+    var b = Number(a)
+    console.log(b, typeof b);
+
+    //非正常数字 -> NaN
+    var c = '123qqe'
+    var d = Number(c)
+    console.log(d, typeof d); // NaN
+
+    //null -> 0
+    var e = ''
+    var f = Number(e)
+    console.log(f, typeof f);
+
+    //布尔值 true 1  false 0
+    var aa = true
+    var bb = false
+    console.log(Number(aa), typeof Number(aa), Number(bb), typeof Number(bb));
+
+    //undefine -> NaN
+    var cc = undefined
+    console.log(Number(cc), typeof Number(cc));
+
+
+    //parseInt
+    var q = '123px'
+    var qq = parseInt(q)
+    console.log(qq, typeof qq);
+
+    //parseFloat
+    var w = '123.123px'
+    var ww = parseFloat(w)
+    console.log(ww, typeof ww);
+
+
+
+  </script>
+
+</body>
+
+</html>

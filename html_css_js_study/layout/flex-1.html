@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>flex布局音乐播放布局</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #box1 {
+      width: 100%;
+      min-width: 700px;
+      margin: 10px auto;
+      /*
+      border: 1px solid black;
+      background-color: antiquewhite; 
+      */
+      display: flex;
+      flex-wrap: wrap;
+    }
+    a{
+      text-decoration: none;
+    }
+
+    .item:nth-child(odd) {
+      /*
+      background-color: turquoise;
+      */
+    }
+
+    .item {
+      width: 25%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .item-com {
+      width: 150px;
+      /*
+       border: 1px solid red;
+      */
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .item-con-img {
+      height: 150px;
+      position: relative;
+    }
+
+    .item-con-img img {
+      border-radius: 10px;
+    }
+
+    .item-con-img span {
+      font-size: 14px;
+      color: #ebe5e5;
+      display: flex;
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      z-index: 5;
+    }
+
+    .item-com a.item-con-img::after {
+      content: '';
+      width: 100%;
+      height: 50%;
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0,0,0,0.5));
+      display: block;
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+border-radius: 0px 0px 10px 10px;
+    }
+
+    .item-con-title{
+      font-size: 14px;
+      color: #000;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .item-com a.item-con-title:hover{
+      color: rgb(58, 147, 219);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id='box1'>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-com">
+        <a href="" class="item-con-img">
+          <img src="./img/2.png" style="width: 150px;height:150px;">
+          <span><img src="./img/播放量.png" style="width: 20px">2444.0万</span>
+        </a>
+        <a href="" class="item-con-title">点击查看详情</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script type='text/javascript'>
+  </script>
+</body>
+
+</html>

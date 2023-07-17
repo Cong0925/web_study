@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+</head>
+<style>
+  .box1 {
+    width: 300px;
+    height: 300px;
+    background-color: red;
+  }
+
+  .box1_1 {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+  }
+
+  .box1_2 {
+    border: 10px solid black;
+  }
+</style>
+
+<body>
+  <button id="btn1">切换</button>
+  <br><br>
+  <div id='box1' class="box1 bbb">
+
+  </div>
+  <script type='text/javascript'>
+    window.onload = function () {
+      var box1 = document.getElementById('box1')
+      var btn1 = document.getElementById('btn1')
+
+      btn1.onclick = function () {
+        
+          addClass(box1, 'box1_2')
+          removeClass(box1, 'bbb')
+          toggleClass(box1,'aaa')
+      }
+    }
+
+    //增加 类名
+    function addClass(obj, cn) {
+      if (!hasClass(obj, cn)) {
+        obj.className += ' ' + cn
+      }
+    }
+    //判断是否有 某个类名
+    function hasClass(obj, cn) {
+      var reg = new RegExp('\\b' + cn + '\\b')
+      return reg.test(obj.className)
+    }
+    //删除类名
+    function removeClass(obj, cn) {
+      var reg = new RegExp('\\b' + cn + '\\b')
+      obj.className = obj.className.replace(reg, '')
+    }
+    //类名切换 有则删除 无责加上
+    function toggleClass(obj, cn) {
+      if(hasClass(obj,cn)){
+        removeClass(obj, cn)
+      }
+      else{
+        addClass(obj, cn)
+      }
+    }
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <link rel='stylesheet' href='../css/index.css' type='text/css'>
+</head>
+
+<body>
+  <button id="btn">点击</button>
+
+  <div id="list">
+  </div>
+
+  <div class="input">
+    <input name='input' value="one" placeholder="shuru">
+    <input name='input' value="two" placeholder="shuru">
+    <input name='input' value="three" placeholder="shuru">
+    <button id="btn1">点击更换内容</button>
+  </div>
+
+  <div class="picture">
+    <p id="pic_info"></p>
+    <img class='pic_src' src="../img/0.png" alt="pic">
+    <div class="pic_but">
+      <button id="prev">上一张</button>
+      <button id="next">下一张</button>
+    </div>
+  </div>
+
+
+
+  <div class="list1">
+    <ul class="my_ul1">
+      <li class="my_li1">111</li>
+      <li class="my_li1">222</li>
+      <li class="my_li1">333</li>
+      <li class="my_li1">444</li>
+      <li class="my_li1" id="my_li555">555</li>
+      <li class="my_li1">666</li>
+      <li class="my_li1">777</li>
+      <li class="my_li1">888</li>
+      <li class="my_li1">999</li>
+    </ul>
+  </div>
+
+
+  <script type='text/javascript'>
+    /*
+    ODM 初识
+
+    事件
+      button.onclick()  点击事件
+      window.onload     页面加载后执行
+
+    获取元素节点
+      getElementById       
+      getElementsByTagName 
+      getElementsByClassName
+      getElementsByName   
+    通过获取元素进行一些操作练习  120行之前
+
+    获取元素节点子节点
+        获取当前元素所有子节点   childNodes  包括空白文本节点
+        获取当前元素的所有子元素   children   不包括空白文本节点
+        当前元素第一个子节点   firstChild  包括空白文本节点
+        当前元素最后一个子节点   lastChild  包括空白文本节点
+
+    获取当前节点父节点，兄弟节点
+        获取父节点  parentNode 
+        获取前一个兄弟节点   previousSibling  可能是空白文本节点
+        获取前一个兄弟元素   previousElementSibling  无空白文本节点
+        获取下一个兄弟节点   nextSibling  可能是空白文本节点
+        获取下一个兄弟元素   nextElementSibling  无空白文本节点
+
+    查询  
+        返回第一个 document.querySelecto('.list1 ul')
+        返回所有   document.querySelectorAll('.my_ul1 li')
+
+    */
+//document.querySelector('.list1 ul')
+var li = document.querySelector('.my_ul1 li')
+console.log(li);
+var li = document.querySelectorAll('.my_ul1 li')
+console.log(li);
+
+
+    //button 练习
+    function fun_but_exer() {
+      console.log('this is button1');
+    }
+
+    //ul li 动态添加
+    function fun_ul_li() {
+      var lsit = document.getElementById('list')
+      var u = '<ul>'
+      var datas = ['one', 'two', 'three', 'four', 'five']
+      for (let i = 0; i < datas.length; i++) {
+        u = u + '<li>' + datas[i] + '</li>'
+      }
+      u = u + '</ul>'
+      list.innerHTML = u
+
+      var liName = lsit.getElementsByTagName('li');
+      for (let i = 0; i < liName.length; i++) {
+        console.log('li', liName[i].innerHTML);
+      }
+    }
+
+    //input 内容 变化
+    var txt = document.getElementsByName('input')
+    function fun_input() {
+      for (let i = 0; i < txt.length; i++) {
+        txt[i].value = 'this is ' + Math.round(Math.random() * 100)
+      }
+
+    }
+
+    //图片变化
+    var pic_src = document.getElementsByClassName('pic_src')[0]
+    var i = 0, pic_MAX = 20, pic_MIN = 0
+    var pic_info = document.getElementById('pic_info')
+    pic_info.innerHTML = "一共" + (pic_MAX + 1) + '张图片，当前第' + (i + 1) + '张'
+    function fun_pic_prev() {
+      i--
+      if (i >= pic_MIN) {
+        pic_src.src = '../img/' + i + '.png'
+      }
+      else {
+        i = pic_MAX
+        pic_src.src = '../img/' + i + '.png'
+      }
+      pic_info.innerHTML = "一共" + (pic_MAX + 1) + '张图片，当前第' + (i + 1) + '张'
+    }
+    function fun_pic_next() {
+      i++
+      if (i <= pic_MAX) {
+        pic_src.src = '../img/' + i + '.png'
+      }
+      else {
+        i = pic_MIN
+        pic_src.src = '../img/' + i + '.png'
+      }
+      pic_info.innerHTML = "一共" + (pic_MAX + 1) + '张图片，当前第' + (i + 1) + '张'
+    }
+
+
+    //获取当前元素所有子节点   childNodes  包括空白文本节点
+    function fun1() {
+      var list1 = document.getElementsByClassName('list1')[0]
+      var list1_allNodes = list1.childNodes
+      console.log(list1_allNodes.length, list1_allNodes);//text ul text 
+
+      var my_ul1 = document.getElementsByClassName('my_ul1')[0]
+      var nn = my_ul1.childNodes
+      console.log(nn.length, nn);
+    }
+
+    //获取当前元素的所有子元素   children   不包括空白文本节点
+    function fun2() {
+      var list1 = document.getElementsByClassName('list1')[0]
+      var list1_allNodes = list1.children
+      console.log(list1_allNodes);//text ul text 
+
+      var my_ul1 = document.getElementsByClassName('my_ul1')[0]
+      var nn = my_ul1.children
+      console.log(nn);
+    }
+
+    //当前元素第一个子节点   firstChild  包括空白文本节点
+    function fun3() {
+      var list1 = document.getElementsByClassName('list1')[0]
+      var list1_allNodes = list1.firstChild
+      console.log(list1_allNodes);//text ul text 
+    }
+
+    //当前元素最后一个子节点   lastChild  包括空白文本节点
+    function fun4() {
+      var list1 = document.getElementsByClassName('list1')[0]
+      var list1_allNodes = list1.lastChild
+      console.log(list1_allNodes);//text ul text 
+
+    }
+
+    //获取父节点  parentNode 
+    function fun5() {
+      var list1 = document.getElementsByClassName('list1')[0]
+      var list1_allNodes = list1.parentNode
+      console.log(list1_allNodes);//text ul text
+
+      var my_ul1 = document.getElementsByClassName('my_ul1')[0]
+      var nn = my_ul1.parentNode
+      console.log(nn.innerHTML, nn.innerText);
+    }
+
+    //获取前一个兄弟节点   previousSibling  可能是空白文本节点
+    function fun6(){
+      var my_li555 = document.getElementById('my_li555')
+      var nn = my_li555.previousSibling
+      console.log(nn,nn.innerHTML, nn.innerText);//是text空白节点
+    }
+    //获取前一个兄弟元素   previousElementSibling  无空白文本节点
+    function fun7(){
+      var my_li555 = document.getElementById('my_li555')
+      var nn = my_li555.previousElementSibling
+      console.log(nn,nn.innerHTML, nn.innerText);
+    }
+    
+    //获取下一个兄弟节点   nextSibling  可能是空白文本节点
+    function fun8(){
+      var my_li555 = document.getElementById('my_li555')
+      var nn = my_li555.nextSibling
+      console.log(nn,nn.innerHTML, nn.innerText);//是text空白节点
+    }
+    //获取下一个兄弟元素  nextElementSibling  无空白文本节点
+    function fun9(){
+      var my_li555 = document.getElementById('my_li555')
+      var nn = my_li555.nextElementSibling
+      console.log(nn,nn.innerHTML, nn.innerText);
+    }
+
+
+
+
+    window.onload = function () {
+      var btn = document.getElementById('btn')
+      btn.onclick = fun_but_exer
+
+      fun_ul_li();
+
+      var btn1 = document.getElementById('btn1')
+      btn1.onclick = fun_input
+
+      var pic_prev = document.getElementById('prev')
+      var pic_next = document.getElementById('next')
+      pic_prev.onclick = fun_pic_prev
+      pic_next.onclick = fun_pic_next
+
+      fun1()
+      fun2()
+      fun3()
+      fun4()
+      fun5()
+      fun6()
+      fun7()
+      fun8()
+      fun9()
+
+    }
+
+
+
+
+
+
+  </script>
+  <style></style>
+</body>
+
+</html>

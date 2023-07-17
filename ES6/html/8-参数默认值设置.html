@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding:0px;
+    }
+    
+    #box1 {
+      width:300px;
+      height:300px;
+      margin-top:10px;
+      margin-left:10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id='box1'>
+    
+  </div>
+  
+  <script type='text/javascript'>
+    
+    //参数 默认初始值
+    function fun1(a,b,c=10){
+      return a+b+c
+    }
+    var num1 = fun1(10,10)
+
+    //与解构赋值结合使用
+    var connect = {
+      name:'user',
+      host:'localhost',
+      psd:12345,
+      port:3306
+    }
+    function fun2({name,host,psd,port,ip='192.168.106.1'}){
+      console.log(name,host,psd,port,ip);
+    }
+    fun2(connect)
+
+    
+    
+    var box1 = document.getElementById('box1')
+    box1.innerHTML = num1 + '<br>'
+
+  </script>
+</body>
+</html>
