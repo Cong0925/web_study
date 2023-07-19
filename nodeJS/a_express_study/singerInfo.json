@@ -1,0 +1,34 @@
+{
+  "singers":[
+    {
+      "name":"qqqq",
+      "pic": "null",
+      "other_name": "qq",
+      "id": 1
+    },
+    {
+      "name":"wwww",
+      "pic": "null",
+      "other_name": "ww",
+      "id": 2
+    },
+    {
+      "name":"eeee",
+      "pic": "null",
+      "other_name": "ee",
+      "id": 3
+    },
+    {
+      "name":"rrrr",
+      "pic": "null",
+      "other_name": "rr",
+      "id": 4
+    },
+    {
+      "name":"tttt",
+      "pic": "null",
+      "other_name": "tt",
+      "id": 5
+    }
+  ]
+}

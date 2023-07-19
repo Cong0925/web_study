@@ -1,0 +1,16 @@
+td {
+  padding: 20px 40px;
+}
+
+tr:nth-child(2n) {
+  background-color: #aef;
+}
+
+tr:nth-child(2n+1) {
+  background-color: #fcb;
+}
+
+table,
+td {
+  border-collapse: collapse;
+}
