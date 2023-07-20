@@ -48,7 +48,7 @@ app.get('/other', (req, res) => {
   // })
   
   //响应文件内容
-  res.sendFile(__dirname + '/html1.html');
+  res.sendFile(__dirname + './publish/html1.html');
 })
 
 // 练习获取 url 里的参数
