@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .box {
+      width: 400px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .box h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .box form div {
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+    .box form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .box form input, .box form select {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .box form div:last-child{
+      text-align: center;
+    }
+    .box form button {
+      width: 50%;
+      padding: 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+   
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>提交表单</h1>
+    <hr>  
+    <form action="/account" method="POST" >
+      <div>
+        <label for="title">事项</label>
+        <input type="text" name="title">
+      </div>
+      <div>
+        <label for="time">时间</label>
+        <input type="datetime-local" name="time">
+      </div>
+      <div>
+        <label for="type">类型</label>
+        <select name="type">
+          <option value="-1">支出</option>
+          <option value="1">收入</option>
+        </select>
+      </div>
+      <div>
+        <label for="account">金额</label>
+        <input type="text" name="account">
+      </div>
+      <div>
+        <label for="remark">备注</label>
+        <input type="text" name="remark">
+      </div>
+      <div>
+        <button>提交</button>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

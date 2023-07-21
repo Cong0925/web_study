@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>所有歌手信息</title>
+  <style>
+    li{
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+  <ul>
+    <% singer.forEach(item =>{ %>
+      <li><%= item.id %>: <%= item.name %></li>
+    <% }) %>
+  </ul>
+
+  <script>
+
+  </script>
+</body>
+</html>

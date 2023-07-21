@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    a{
+      text-decoration : none
+    }
+    hr{
+      margin-bottom: 10px;
+      margin-top: 5px;
+    }
+    body,
+    html {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      background-color: #f1f1f1;
+    }
+    .container {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      position: relative;
+      width: 500px;
+      margin: 10px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .myflex{
+      display: flex;
+    }
+    .title{
+      flex: 2;
+    }
+    .time{
+      flex: 1;
+    }
+
+    .content{
+      margin-bottom: 20px;
+    }
+
+    .footer{
+
+    }
+    .red{
+      background-color: #f2ddde;
+    }
+    .green{
+      background-color: #86e9a5;
+    }
+    .delButton{
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+     
+    }
+    button{
+      padding: 5px;
+      background-color: #c7ccc7;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      width: 100px;
+    }
+  </style>
+</head>
+
+<body>
+ 
+  <div class="container">
+    <h1>记账本</h1>
+    <hr>
+    <% accounts.forEach(item =>{ %>
+      <div class="card <%= item.type === '-1' ? 'red' : 'green' %>">
+        <div class="myflex">
+          <div class="title">
+            <h2><%= item.title %>(<%= item.type === '-1' ? '支出' : '收入' %>)</h2>
+          </div>
+          <div class="time">
+            <p><%= item.time %></p>
+          </div>
+        </div>
+        <hr>
+        <div class="content">
+          <p>金额: <%= item.account %> 元</p>
+  
+        </div>
+        <div class="footer">
+          <p>备注: <%= item.remark %></p>
+        </div>
+        <div class="delButton">
+          <a href="/account/<%= item.id %>">
+            <button>删除账单</button>
+          </a>
+        </div>
+      </div>
+
+    <% }) %>
+   
+  </div>
+</body>
+
+</html>

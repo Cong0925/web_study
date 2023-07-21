@@ -2,5 +2,8 @@
   "devDependencies": {
     "@types/node": "^20.4.2",
     "babel-plugin-module-resolver": "^5.0.0"
+  },
+  "dependencies": {
+    "formidable": "^3.5.0"
   }
 }

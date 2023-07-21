@@ -1,31 +1,31 @@
 {
   "singers":[
     {
-      "name":"qqqq",
+      "name":"周杰伦",
       "pic": "null",
       "other_name": "qq",
       "id": 1
     },
     {
-      "name":"wwww",
+      "name":"汪峰",
       "pic": "null",
       "other_name": "ww",
       "id": 2
     },
     {
-      "name":"eeee",
+      "name":"汪苏泷",
       "pic": "null",
       "other_name": "ee",
       "id": 3
     },
     {
-      "name":"rrrr",
+      "name":"林俊杰",
       "pic": "null",
       "other_name": "rr",
       "id": 4
     },
     {
-      "name":"tttt",
+      "name":"张杰",
       "pic": "null",
       "other_name": "tt",
       "id": 5
