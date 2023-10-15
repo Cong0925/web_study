@@ -9,17 +9,15 @@ function fun(arr) {
   let direction = 0;
 
   while (top <= bottom && left <= right) {
-    if (direction === 0) { // 从左到右
+    if (direction === 0) { // 从左到右 
       for (let i = left; i <= right; i++) {
         result.push(arr[top][i]);
-      }
-      top++;
-    } else if (direction === 1) { // 从上到下
+      } top++;
+    } else if (direction === 1) { // 从上到下 
       for (let i = top; i <= bottom; i++) {
         result.push(arr[i][right]);
-      }
-      right--;
-    } else if (direction === 2) { // 从右到左
+      } right--;
+    } else if (direction === 2) { // 从右到左 
       for (let i = right; i >= left; i--) {
         result.push(arr[bottom][i]);
       }
