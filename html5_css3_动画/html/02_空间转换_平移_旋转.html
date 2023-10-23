@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <link rel="stylesheet" href="../css/01_basice.css">
+  <style>
+    .box{
+      width: 1200px;
+      margin: 30px auto;
+      /*  perspective 范围 800-1200 px */
+      perspective: 1000px;
+    }
+
+    .box-pink{
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background-color: pink;
+      transition: all 0.5s;
+
+    }
+
+    .box-pink:hover{
+      /* 近大远小 */
+      transform: translateZ(200px);
+      /* 旋转 默认轴Z */
+      transform: rotateZ(180deg);
+      }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="box-pink"></div>
+  </div>
+</body>
+
+</html>
