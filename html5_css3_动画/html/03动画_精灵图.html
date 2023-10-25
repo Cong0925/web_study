@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding:0px;
+    }
+
+    .box1{
+      width: 175px;
+      height: 235px;
+      /* border: 1px solid #000; */
+      background-image: url(../img/img1.png);
+      animation: peopleMove 1s steps(5) infinite,
+      boxMove 4s forwards ;
+    }
+    .box1:hover{
+      animation-play-state: paused;
+    }
+
+    @keyframes peopleMove{
+      from{
+        background-position: 0 0 ;
+      }
+      to{
+        background-position: -900px 0;
+      }
+    }
+    @keyframes boxMove{
+      from{
+        transform: translateX(0);
+      }
+      to{
+        transform: translateX(500px);
+      }
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding:0px;
+    }
+
+    .box1{
+      width: 900px;
+      height: 225px;
+      border: 1px solid #000;
+      overflow: hidden;
+    }
+
+    ul{
+      width: 3150px;
+      animation: picGo 5s infinite linear;
+    }
+
+    li{
+      list-style: none;
+      float: left;
+    }
+    
+
+    @keyframes picGo{
+      to{
+        transform: translateX(-2250px);
+      }
+    }
+
+    .box1:hover ul{
+      animation-play-state: paused;
+    }
+  
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+    <ul>
+      <li><img src="../img/g1.png" alt=""></li>
+      <li><img src="../img/g2.png" alt=""></li>
+      <li><img src="../img/g3.png" alt=""></li>
+      <li><img src="../img/g4.png" alt=""></li>
+      <li><img src="../img/g5.png" alt=""></li>
+      <li><img src="../img/g1.png" alt=""></li>
+      <li><img src="../img/g2.png" alt=""></li>
+      <li><img src="../img/g3.png" alt=""></li>
+      <li><img src="../img/g4.png" alt=""></li>
+      <li><img src="../img/g5.png" alt=""></li>
+
+      <li><img src="../img/g1.png" alt=""></li>
+      <li><img src="../img/g2.png" alt=""></li>
+      <li><img src="../img/g3.png" alt=""></li>
+      <li><img src="../img/g4.png" alt=""></li>
+
+
+    </ul>
+  </div>
+</body>
+</html>
