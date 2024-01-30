@@ -1,0 +1,23 @@
+{
+  "id": "4425560",
+  "name": "mine_clearance",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1614601",
+      "name": "红旗",
+      "font_class": "hongqi",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "11434131",
+      "name": "地雷",
+      "font_class": "dilei",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    }
+  ]
+}
