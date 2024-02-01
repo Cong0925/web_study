@@ -1,3 +1,6 @@
+import { useUserApi } from './api/user.js'
+import { useGameResultsApi } from './api/gameResults.js'
+
 let game_difficulty = 'easy' //默认难度
 
 // 简单难度
@@ -16,15 +19,16 @@ let intermediate_parmas = {
 let difficult_parmas = {
   rows: 50,
   cols: 50,
-  totalMines: 400,
+  totalMines: 300,
 }
 
 // 游戏难度设置
-let game_parmas = {
-  rows: 20,
-  cols: 10,
-  totalMines: 5,
-}
+let game_parmas = easy_parmas
+// let game_parmas = {
+//   rows: 20,
+//   cols: 10,
+//   totalMines: 5,
+// }
 
 // 游戏区域元素
 let boardElement
@@ -43,6 +47,7 @@ let milliseconds = 0;
 
 // 记录每次切换模式的时间
 let lastClickTime = 0;
+
 // 切换游戏难度
 function selectDifficulty(gameDifficulty, event) {
   if (timerInterval) {
@@ -59,15 +64,18 @@ function selectDifficulty(gameDifficulty, event) {
   // 在合理的时间间隔内点击，执行相应的动作
   if (timeDiff > clickInterval) {
     // 游戏模式赋值
-    game_difficulty = gameDifficulty
     if (gameDifficulty === 'easy') {
       game_parmas = easy_parmas
+      game_difficulty = '初级'
     } else if (gameDifficulty === 'intermediate') {
       game_parmas = intermediate_parmas
+      game_difficulty = '中级'
     } else if (gameDifficulty === 'difficult') {
       game_parmas = difficult_parmas
+      game_difficulty = '高级'
     } else if (gameDifficulty === 'mySetting') {
       openDifficultySellectPopup()
+      game_difficulty = '自定义'
     }
     // 删除上一个模式的内容
     while (boardElement.firstChild) {
@@ -231,7 +239,7 @@ function cellClick(event) {
 
     // 检查胜利条件
     const revealedCells = document.querySelectorAll('.cell-action').length;
-    console.log(revealedCells, game_parmas.totalMines);
+    // console.log(revealedCells, game_parmas.totalMines);
     // 异步显示
     setTimeout(() => {
       if (revealedCells === game_parmas.totalMines) {
@@ -340,7 +348,6 @@ function countAdjacentMines(row, col) {
 function resetGame() {
   allMineLocations = [];
   boardElement.innerHTML = '';
-
   initializeBoard();
 }
 
@@ -365,6 +372,11 @@ function updateTime() {
   document.getElementById('time').textContent = `时间：${elapsedSeconds}.${milliseconds} s`;
 }
 
+let scoreDate = {
+  userID: localStorage.getItem('userID') | '',
+  challengeTime: '',
+  difficulty: game_difficulty === 'easy' ? '初级' : ''
+}
 // 显示提示信息弹窗
 function openPopup(type) {
 
@@ -377,14 +389,88 @@ function openPopup(type) {
   popup.style.display = "block";
 
   if (type === 'success') {
+    scoreDate.challengeTime = `${elapsedSeconds}.${milliseconds} `
     document.getElementById('popupTitle').innerHTML = '胜利！'
-    document.getElementById('content').innerHTML = '恭喜成功！' + '用时：' + `${elapsedSeconds}.${milliseconds} s`
+    document.getElementById('popup-tip-content').innerHTML = '恭喜成功！' + '用时：' + `${elapsedSeconds}.${milliseconds} s`
+
+    if (game_difficulty === '自定义') {
+      document.getElementById('submitScore').style.display = "none";
+    } else {
+      document.getElementById('submitScore').style.display = "block";
+      scoreDate.difficulty = game_difficulty
+      markUser()
+    }
   } else if (type === 'false') {
     document.getElementById('popupTitle').innerHTML = '失败！'
-    document.getElementById('content').innerHTML = '很遗憾，你失败了！' + '用时：' + `${elapsedSeconds}.${milliseconds} s`
+    document.getElementById('popup-tip-content').innerHTML = '很遗憾，你失败了！' + '用时：' + `${elapsedSeconds}.${milliseconds} s`
+    document.getElementById('submitScore').style.display = "none";
   }
   // 如果计时器正在运行，停止计时
   stopTimer();
+}
+let inputUsername;
+let contentDiv;
+let textInfo;
+const markUser = () => {
+  contentDiv = document.getElementById('popup-content')
+  if (localStorage.getItem('user')) {
+    // 添加文字信息
+    textInfo = document.createElement('p');
+    textInfo.textContent = `${localStorage.getItem('user')} 是否上传本次成绩？`
+    contentDiv.appendChild(textInfo);
+  } else {
+    // 添加文字信息
+    textInfo = document.createElement('p');
+    textInfo.textContent = '请输入您的用户名用于进入排行榜';
+    contentDiv.appendChild(textInfo);
+
+    // 添加输入框
+    inputUsername = document.createElement('input');
+    inputUsername.type = 'text';
+    inputUsername.placeholder = '请输入用户名';
+    contentDiv.appendChild(inputUsername);
+  }
+}
+
+
+const submitScore = async () => {
+  let enteredUsername;
+  let postUsersRes;
+  let postGameResultRes;
+  let postDifficultyRes;
+  // 获取输入的用户名
+  if (contentDiv.contains(inputUsername)) {
+    enteredUsername = inputUsername.value;
+    localStorage.setItem('user', enteredUsername)
+    let data = {
+      username: enteredUsername,
+      IPAddress: ''
+    }
+    postUsersRes = await useUserApi().postUsers(data)
+    localStorage.setItem('userID', postUsersRes.data.UserID)
+    scoreDate.userID = postUsersRes.data.UserID
+  } else {
+    enteredUsername = localStorage.getItem('user')
+    console.log(scoreDate);
+  }
+  postGameResultRes = await useGameResultsApi().postGameResult(scoreDate)
+  console.log(postGameResultRes.data[0].ResultID);
+  let postDifficultyParams = {
+    resultID: postGameResultRes.data[0].ResultID
+  }
+
+  if (game_difficulty === '初级' || game_difficulty === 'easy') {
+    postDifficultyRes = await useGameResultsApi().postBeginnerRanking(postDifficultyParams)
+  } else if (game_difficulty === '中级' || game_difficulty === 'intermediate') {
+    postDifficultyRes = await useGameResultsApi().postIntermediateRanking(postDifficultyParams)
+  } else if (game_difficulty === '高级' || game_difficulty === 'difficult') {
+    postDifficultyRes = await useGameResultsApi().postAdvancedRanking(postDifficultyParams)
+  }
+  console.log(postDifficultyRes);
+
+
+
+  closePopup()
 }
 
 // 关闭提示信息弹窗
@@ -396,6 +482,16 @@ function closePopup() {
   // 隐藏遮罩层和弹窗
   overlay.style.display = "none";
   popup.style.display = "none";
+
+  if (contentDiv) {
+    if (contentDiv.contains(textInfo)) {
+      contentDiv.removeChild(textInfo);
+      if (contentDiv.contains(inputUsername)) {
+        contentDiv.removeChild(inputUsername);
+      }
+    }
+  }
+
   resetGame();
 }
 
@@ -427,7 +523,7 @@ function confirmDifficultySellectPopup() {
     game_parmas.rows = Number(rows)
     game_parmas.cols = Number(columns)
 
-    game_parmas.totalMines = mines ? Number(mines) : (rows * columns * 0.2 >=1 ? rows * columns * 0.2 : 1)
+    game_parmas.totalMines = mines ? Number(mines) : (rows * columns * 0.2 >= 1 ? rows * columns * 0.2 : 1)
   } else {
     game_parmas = easy_parmas
   }
@@ -444,5 +540,27 @@ function confirmDifficultySellectPopup() {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function () {
+
+  // 添加事件监听器
+  document.getElementById('closeDifficultySellectPopup').addEventListener('click', closeDifficultySellectPopup);
+  document.getElementById('confirmDifficultySellectPopup').addEventListener('click', confirmDifficultySellectPopup);
+  document.getElementById('difficulty-sellect-close').addEventListener('click', closeDifficultySellectPopup);
+  document.querySelectorAll('.popup-close').forEach(function (button) {
+    button.addEventListener('click', closePopup);
+  });
+  document.getElementById('submitScore').addEventListener('click', submitScore);
+
+  // 获取所有按钮
+  const buttons = document.querySelectorAll('.difficulty-selection-btn');
+
+  // 给每个按钮添加点击事件
+  buttons.forEach(function (button) {
+    button.addEventListener('click', async function () {
+      // 获取按钮的 difficulty 类型
+      const difficulty = button.getAttribute('data-difficulty');
+      selectDifficulty(difficulty, event)
+    });
+  });
+
   initializeBoard();
 });

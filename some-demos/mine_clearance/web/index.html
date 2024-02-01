@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扫雷</title>
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/icon.css">
+  <link rel="stylesheet" href="./css/popup.css">
+  <link rel="stylesheet" href="./css/difficultySellectPopup.css">
+  <link rel="stylesheet" href="./css/ranking.css">
+
+
+  <script type='module' src="./js/index.js"></script>
+  <script type='module' src='./js/dragging.js'></script>
+  <script type='module' src='./js/checkInput.js'></script>
+  <script type='module' src='./js/utils/request.js'></script>
+  <script type='module' src='./js/api/user.js'></script>
+  <script type='module' src='./js/api/rankingViews.js'></script>
+
+  <script type='module' src='./js/showRanking.js'></script>
+
+</head>
+
+<body>
+  <div class="game">
+    <div class="difficulty-selection">
+      <button class="difficulty-selection-btn" data-difficulty="easy">初级</button>
+      <button class="difficulty-selection-btn" data-difficulty="intermediate">中级</button>
+      <button class="difficulty-selection-btn" data-difficulty="difficult">高级</button>
+      <button class="difficulty-selection-btn" data-difficulty="mySetting">自定义</button>
+    </div>
+    <div class="tips">
+      <span id="totalMines"></span>
+      <span id="residueMines"></span>
+      <span id="time"></span>
+      <span style="margin-left: 20px;">
+        <a href="#" id="showRanking">排行榜</a>
+      </span>
+    </div>
+    <div class="cells">
+      <div id="board" class="board"></div>
+    </div>
+  </div>
+  <!-- 遮罩层 -->
+  <div id="overlay"></div>
+
+  <!-- 自定义扫雷弹窗 -->
+  <div id="difficulty-sellect-popup">
+    <div class="layout">
+      <div id="difficulty-sellect-popup-header" class="header">
+        <div id="difficulty-sellect-title" class="popupTitle">自定义扫雷设置</div>
+        <div id="difficulty-sellect-close" class="closeButton">X</div>
+      </div>
+      <div class="content">
+        <div class="content-item">
+          <div class="content-item-tip">提示：限制行数小于100 </div>
+          <label for="rows">行数：</label>
+          <input type="number" id="rows" min="1" max="100" placeholder="输入行数">
+        </div>
+        <div class="content-item">
+          <div class="content-item-tip">提示：限制列数小于60</div>
+          <label for="columns">列数：</label>
+          <input type="number" id="columns" min="1" max="60" placeholder="输入列数">
+        </div>
+        <div class="content-item">
+          <div class="content-item-tip">提示：地雷数目要小于 行 * 列</div>
+          <label for="mines">雷数：</label>
+          <input type="number" id="mines" min="1" placeholder="输入地雷数">
+        </div>
+
+      </div>
+      <div class="footer">
+        <button id="closeDifficultySellectPopup">取消</button>
+        <button id="confirmDifficultySellectPopup">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示信息弹窗 -->
+  <div id="popup">
+    <div class="popup-layout">
+      <div id="popup-header" class="header">
+        <div id="popupTitle" class="popupTitle">提示标题</div>
+        <div id="closeButton" class="closeButton popup-close">X</div>
+
+      </div>
+      <div id="popup-content" class="content">
+        <p id="popup-tip-content">这是弹窗的文字信息。</p>
+      </div>
+      <div class="footer">
+        <button class="popup-close">返回</button>
+        <button id="submitScore">提交</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 排行榜弹窗 -->
+  <div id="ranking-box">
+    <div class="layout">
+      <div class="header">
+        <div id="ranking-title" class="popupTitle">排行榜</div>
+        <div id="ranking-close" class="closeButton ranking-close">X</div>
+      </div>
+      <div class="content" id="ranking-content">
+        <div class="ranking-content-item ">
+          <h2 id="ranking-table-title" style="margin: 0;">难度：初级</h2>
+          <div class="btns">
+            <button class="ranking-select" data-difficulty="beginner">初级</button>
+            <button class="ranking-select" data-difficulty="intermediate">中级</button>
+            <button class="ranking-select" data-difficulty="advanced">高级</button>
+          </div>
+        </div>
+
+        <div class="ranking-content-item">
+          <!-- HTML 表格 -->
+          <table id="ranking-table">
+            <thead>
+              <tr>
+                <th>排行/名</th>
+                <th>用户</th>
+                <th>用时/s</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 表格内容将通过 JavaScript 动态添加 -->
+            </tbody>
+          </table>
+        </div>
+        <div class="ranking-content-item" id="rankingContent"></div>
+        <div class="pagination" id="pagination">
+          <button id="goFirstPage" >第一页</button>
+          <button id="prevPage">上一页</button>
+          <span id="currentPage">1</span>
+          <span>/</span>
+          <span id="totalPages">1</span>
+          <button id='nextPage' >下一页</button>
+          <button id="goLastPage" >最后一页</button>
+        </div>
+
+        <div class="ranking-content-item">
+          <span id="my-best-ranking">我的最高记录：</span>
+        </div>
+      </div>
+      <div class="footer">
+        <button class="ranking-close">确认</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

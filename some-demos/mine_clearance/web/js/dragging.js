@@ -1,6 +1,6 @@
-window.addEventListener("mousedown", function (e) {
-  console.log(e.clientX,e.clientY);
-})
+// window.addEventListener("mousedown", function (e) {
+//   console.log(e.clientX,e.clientY);
+// })
 
 document.addEventListener("DOMContentLoaded", function() {
   let isDragging = false;
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // 鼠标移动时的事件处理程序
   document.addEventListener("mousemove", function (e) {
     if (isDragging) {
-      console.log(e.clientX,e.clientY,difficultySellectPopup.getBoundingClientRect().left,difficultySellectPopup.getBoundingClientRect().top,offsetX,offsetY);
+      // console.log(e.clientX,e.clientY,difficultySellectPopup.getBoundingClientRect().left,difficultySellectPopup.getBoundingClientRect().top,offsetX,offsetY);
       // 更新弹窗的位置
       difficultySellectPopup.style.left = e.clientX - offsetX + "px";
       difficultySellectPopup.style.top = e.clientY - offsetY + "px";
