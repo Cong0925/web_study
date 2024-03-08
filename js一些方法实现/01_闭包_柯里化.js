@@ -1,17 +1,16 @@
-function fun (){
-  let total = 0
+function fun1(x) {
+  let total = x;
 
-  function sum(...values) {
-    values.forEach(item=>{
-      total += item
-    })
-    return sum
+  function sum(value) {
+      total += value;
+      return sum; // 返回自身以便链式调用
   }
 
   sum.toString = function () {
-    return total
+      return total;
   }
 
-  return sum
+  return sum;
 }
-console.log(fun()(1)(2)(3)(2)(2).toString()); // 输出 6
+
+console.log(fun1(1)(2)(3).toString()); // 输出 6
