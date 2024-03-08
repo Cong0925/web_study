@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <title>前端学习</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+</head>
+
+<body>
+
+  写一个聊天显示的窗口，以及信息发送输入框和发送按钮
+  <div id='chat' style="display: flex;justify-content: space-around;">
+    <div class="box1">
+      <div id='user1_messages' style="width: 600px;height: 300px;border:1px solid black">
+        <h1>
+          WebSocket1 user:<span id="user1_h1" style="color: rgb(232, 154, 66);"></span>
+        </h1>
+      </div>
+      <input type='text' id='messageInput1' autocomplete='off' placeholder='Type your message here...'>
+      <button id='sendButton1'>Send</button>
+    </div>
+
+    <div class="box2">
+      <div id='user2_messages' style="width: 600px;height: 300px;border:1px solid black">
+        <h1>
+          WebSocket2 user:<span id="user2_h1" style="color: rgb(232, 154, 66);"></span>
+        </h1>
+      </div>
+      <input type='text' id='messageInput2' autocomplete='off' placeholder='Type your message here...'>
+      <button id='sendButton2'>Send</button>
+    </div>
+
+  </div>
+
+  <script type='text/javascript'>
+    let data = [
+      {
+        user: 'xhc',
+        message: '',
+        time: '',
+        toUser: ''
+      }, {
+        user: 'slj',
+        message: '',
+        time: '',
+        toUser: ''
+      },
+      {
+        user: 'aaa',
+        message: '',
+        time: '',
+        toUser: ''
+      }
+    ]
+
+    let mess1 = document.getElementById('user1_messages');
+    let mess2 = document.getElementById('user2_messages');
+    let user1_h1 = document.getElementById('user1_h1');
+    user1_h1.innerHTML = `${data[0].user}`
+
+    let input1 = document.getElementById('messageInput1');
+    let input2 = document.getElementById('messageInput2');
+    let user2_h1 = document.getElementById('user2_h1');
+    user2_h1.innerHTML = `${data[1].user}`
+
+    let send1 = document.getElementById('sendButton1');
+    let send2 = document.getElementById('sendButton2');
+
+    const URL = 'ws://localhost:8080'
+
+    const connect1 = () => {
+      // 创建 WebSocket 连接
+      const socket = new WebSocket(URL);
+      let timer; // Variable to store the interval
+    
+      // 当连接打开时执行的操作
+      socket.onopen = function (event) {
+        console.log('WebSocket1 连接已建立');
+        data[0].message = input1.value;
+        data[0].time = new Date().toLocaleString();
+        data[0].toUser = 'slj';
+        // 发送消息到服务器
+        socket.send(JSON.stringify(data[0]));
+        input1.value = '';
+    
+        // 设置定时器，每隔30秒执行一次指定的回调函数
+        timer = setInterval(() => {
+          // 检查 WebSocket 连接的当前状态是否为 OPEN
+          if (socket.readyState === WebSocket.OPEN) {
+            // 如果连接处于 OPEN 状态，则通过连接对象发送心跳消息 'keep-alive'
+            socket.send(JSON.parse('keep-alive'));
+          }
+        }, 30000); // 每 30 秒发送一次心跳
+      };
+    
+      // 当接收到消息时执行的操作
+      socket.onmessage = function (event) {
+        let reply = event.data;
+        mess1.innerHTML = `${mess1.innerHTML} <br>${reply}`;
+    
+        console.log('来自服务器的消息1：', reply);
+      };
+    
+      // 当连接关闭时执行的操作
+      socket.onclose = function (event) {
+        mess1.innerHTML = 'WebSocket1 连接已关闭';
+        console.log('WebSocket1 连接已关闭');
+        // 清除定时器
+        clearInterval(timer);
+      };
+    };
+    
+    send1.addEventListener('click', connect1)
+
+
+    let reconnectDelay = 2000; // 初始重连延迟为 2 秒
+    let reconnectCount = 0; // 当前重连次数
+    const maxReconnectCount = 7; // 最大重连次数为 7
+    const maxReconnectDelay = 60000; // 最大重连延迟为 60 秒
+
+    const connect2 = () => {
+      let socket; // WebSocket 连接对象
+      let timer; // 用于心跳的定时器
+      let timeoutTimer; // 连接超时的定时器
+     
+    
+      // 定义超时操作函数
+      function handleTimeout() {
+        console.error('WebSocket2 连接超时');
+        // 关闭连接
+        if (socket) {
+          socket.close();
+        }
+      }
+    
+      // 定义重新连接函数
+      function reconnect() {
+        reconnectCount++;
+        console.log(`尝试重新连接 WebSocket2，第 ${reconnectCount} 次...`);
+        clearTimeout(timeoutTimer); // 清除超时计时器
+    
+        if (reconnectCount <= maxReconnectCount) {
+          setTimeout(connect2, reconnectDelay); // 重新连接
+          // 更新重连延迟时间，采用指数退避算法
+          reconnectDelay = Math.min(2 * reconnectDelay, maxReconnectDelay);
+        } else {
+          console.error(`WebSocket2 重连失败，已达到最大重连次数 (${maxReconnectCount} 次)`);
+        }
+      }
+    
+      // 创建 WebSocket 连接
+      socket = new WebSocket(URL);
+    
+      // 当连接打开时执行的操作
+      socket.onopen = function (event) {
+        console.log('WebSocket2 连接已建立');
+        data[1].message = input2.value;
+        data[1].time = new Date().toLocaleString();
+        data[1].toUser = 'xhc';
+        // 发送消息到服务器
+        if (socket.readyState === WebSocket.OPEN) {
+          // 如果连接处于 OPEN 状态，则通过连接对象发送消息
+          socket.send(JSON.stringify(data[1]));
+        } else {
+          console.log('WebSocket2 连接未建立/连接建立失败/连接关闭');
+        }
+    
+        input2.value = '';
+    
+        // 设置定时器，每隔30秒执行一次指定的回调函数
+        timer = setInterval(() => {
+          // 检查 WebSocket 连接的当前状态是否为 OPEN
+          if (socket.readyState === WebSocket.OPEN) {
+            // 如果连接处于 OPEN 状态，则通过连接对象发送心跳消息 'keep-alive'
+            socket.send(JSON.parse('keep-alive'));
+          }
+        }, 30000); // 每 30 秒发送一次心跳
+    
+        // 设置超时计时器
+        timeoutTimer = setTimeout(handleTimeout, reconnectDelay);
+      };
+    
+      // 当接收到消息时执行的操作
+      socket.onmessage = function (event) {
+        mess2.innerHTML = `${mess2.innerHTML} <br>${event.data}`;
+        console.log('来自服务器的消息2：', event.data);
+    
+        // 清除超时计时器
+        clearTimeout(timeoutTimer);
+      };
+    
+      // 当连接关闭时执行的操作
+      socket.onclose = function (event) {
+        mess2.innerHTML = 'WebSocket2 连接已关闭';
+        console.log('WebSocket2 连接已关闭');
+        // 清除定时器
+        if (timer) {
+          clearInterval(timer);
+        }
+       
+      };
+    
+      // 当发生错误时执行的操作
+      socket.onerror = function (error) {
+        console.error('WebSocket2 连接发生错误:', error);
+        // 清除超时计时器
+        clearTimeout(timeoutTimer);
+        clearInterval(timer);
+      };
+    };
+    send2.addEventListener('click', connect2)
+  </script>
+</body>
+
+</html>
+
+const function=()=>{
+  let obj = {
+    a:'123',
+    b:'234'
+  }
+  obj.a = 'asd'
+  obj.b = 'zxac'
+  return obj
+}
+
