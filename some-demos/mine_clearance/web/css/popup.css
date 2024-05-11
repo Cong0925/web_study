@@ -57,3 +57,7 @@
   display: flex;
   justify-content: space-around;
 }
+
+.footer .popup-close{
+  margin-bottom: 10px;
+}
