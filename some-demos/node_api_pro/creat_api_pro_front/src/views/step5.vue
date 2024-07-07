@@ -64,6 +64,13 @@ watch(() => store.getters.getMessage, (_newVal: any) => {
   // console.log('message', store.getters.getMessage, newVal)
   solveBackMsg()
 })
+import { ElMessageBoxAlertTool } from "@/utils/elementPlusMessageBoxTool";
+// 
+watch(() => state.isCreated, (newVal: any) => {
+  if(newVal === true){
+    ElMessageBoxAlertTool('程序运行 结束',null)
+  }
+})
 
 // 消息处理函数
 const solveBackMsg = async () => {
