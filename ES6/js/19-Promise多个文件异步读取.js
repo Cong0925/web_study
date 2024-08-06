@@ -14,6 +14,54 @@ const { resolve } = require('path');
 //})
 
 //使用 Promise 封装
+// const p = new Promise((resolve, reject) => {
+//   fs.readFile('../resources/txt1.txt', (err, data) => {
+//     if (err) {
+//       reject(err)
+//     }
+//     else {
+//       resolve(data)
+//     }
+//   })
+// })
+
+// p.then((value) => {
+//   return new Promise((resolve, reject) => {
+//     fs.readFile('../resources/txt2.txt', (err, data) => {
+//       if (err) {
+//         reject(err)
+//       }
+//       else {
+//         resolve([value, data])
+//       }
+//     })
+//   })
+// }, (reason) => {
+//   console.log('error1');
+// })
+//   .then((value) => {
+//     return new Promise((resolve, reject) => {
+//       fs.readFile('../resources/txt3.txt', (err, data) => {
+//         if (err) {
+//           reject(err)
+//         }
+//         else {
+//           value.push(data)
+//           resolve(value)
+//         }
+//       })
+//     })
+//   }, (reason) => {
+//     console.log('error2');
+//   })
+//   .then(value => {
+//     console.log(value.join(''));
+//   }, reason => {
+//     console.log('error3');
+
+//   })
+
+
 const p = new Promise((resolve, reject) => {
   fs.readFile('../resources/txt1.txt', (err, data) => {
     if (err) {
@@ -24,39 +72,26 @@ const p = new Promise((resolve, reject) => {
     }
   })
 })
-
-p.then((value) => {
-  return new Promise((resolve, reject) => {
-    fs.readFile('../resources/txt2.txt', (err, data) => {
-      if (err) {
-        reject(err)
-      }
-      else {
-        resolve([value, data])
-      }
-    })
+const p1 = new Promise((resolve, reject) => {
+  fs.readFile('../resources/txt1.txt', (err, data) => {
+    if (err) {
+      reject(err)
+    }
+    else {
+      resolve(data)
+    }
   })
-}, (reason) => {
-  console.log('error1');
 })
-  .then((value) => {
-    return new Promise((resolve, reject) => {
-      fs.readFile('../resources/txt3.txt', (err, data) => {
-        if (err) {
-          reject(err)
-        }
-        else {
-          value.push(data)
-          resolve(value)
-        }
-      })
-    })
-  }, (reason) => {
-    console.log('error2');
+const p2 = new Promise((resolve, reject) => {
+  fs.readFile('../resources/txt1.txt', (err, data) => {
+    if (err) {
+      reject(err)
+    }
+    else {
+      resolve(data)
+    }
   })
-  .then(value => {
-    console.log(value.join(''));
-  }, reason => {
-    console.log('error3');
+})
 
-  })
+const res = Promise.all([p,p1,p2])
+

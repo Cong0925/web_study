@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data-Driven Mind Map</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
+    .title-style {
+      line-height: 35px;
+    }
+
+    .create-mind-map {
+      width: 1200px;
+      margin: 20px auto;
+    }
+
+    .card-box {
+      border: 1px solid #d5cccc;
+      width: 550px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f7f7f7;
+      border-style: outset;
+    }
+
+    .line-box {
+      display: flex;
+      flex-wrap: wrap;
+      width: 500px;
+      margin-top: 15px;
+    }
+
+    .div-child-input {
+      flex: 5
+    }
+
+    .div-child-btn {
+      margin-left: 5px;
+    }
+
+    input {
+      width: 90%;
+      line-height: 25px;
+      border-radius: 10px;
+      padding: 5px 10px;
+      border: 1px solid #8d8d8d;
+    }
+
+    button {
+      width: 100%;
+      border: 1px solid #dfdfdf;
+      border-radius: 5px;
+      line-height: 30px;
+      background-color: #c8eefb;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <script type='text/javascript' src='../js/vue.js'></script>
+  <div>
+
+    <canvas id="c1" width="1200px" height="500px"></canvas>
+    <button onclick="changeSize()">修改大小</button>
+
+    <button onclick="vm.sendData()">生成图</button>
+  </div>
+  <div class="create-mind-map" id="create-mind-map"></div>
+
+  <script>
+    const changeSize = () => {
+      const c1 = document.getElementById("c1");
+      const ctx = c1.getContext('2d');
+      // 绘制方框
+      ctx.rect(50, 50, 100, 100);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+
+      // 将当前画布内容转换为图像数据
+      var imageData = ctx.getImageData(0, 0, c1.width, c1.height);
+
+      // 在这里更新 canvas 的尺寸
+      c1.height += 200
+
+      // 重新绘制之前保存的图像数据
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+  </script>
+
+  <script>
+    class Tree {
+      constructor(data, child) {
+        this.data = data
+        this.children = child || []
+      }
+      // 根据节点名称 修改数据
+      modifyNodeContent(nodeName, newVal) {
+        this.traverseBFS(item => {
+          if (item.data.node === nodeName) {
+            item.data = {
+              ...item.data,
+              ...newVal
+            }
+          }
+        });
+      }
+      // 添加节点
+      addChild(...children) {
+        children.forEach((item) => {
+          if (item instanceof Tree) {
+            this.children.push(item)
+          } else {
+            this.children.push(new Tree(item))
+          }
+        })
+      }
+      // 添加 指定节点 的子节点
+      addChildToSpecifiedNode(nodeName, data) {
+        this.traverseBFS(item => {
+          if (item.data.node === nodeName) {
+            item.addChild(new Tree(data));
+          }
+        });
+      }
+      // 获取指定节点的最后一个子节点
+      getLastChildOfNode(nodeName) {
+        let foundNode = null;
+        this.traverseBFS(item => {
+          if (item.data.node === nodeName) {
+            foundNode = item;
+          }
+        });
+        if (!foundNode) {
+          return null
+        }
+        if (foundNode.children.length > 0) {
+          return foundNode.children[foundNode.children.length - 1].data.node;
+        } else {
+          return '0';
+        }
+      }
+      // 删除指定节点
+      removeNodeByNodeName(nodeName) {
+        this.children = this.children.filter(child => {
+          if (child.data.node === nodeName) {
+            return false;
+          }
+          child.removeNodeByNodeName(nodeName);
+          return true;
+        });
+      }
+      // 删除所有空节点
+      removeEmptyNodes() {
+        this.children = this.children.filter(child => {
+          if (child.data.title === '' && child.data.content === '') {
+            return false;
+          }
+          child.removeEmptyNodes();
+          return true;
+        });
+      }
+      // 获取指定节点 的深度
+      getDepthOfData(nodeName) {
+        let depth = 0;
+        let queue = [this];
+        while (queue.length > 0) {
+          let size = queue.length;
+          for (let i = 0; i < size; i++) {
+            let current = queue.shift();
+            if (current.data.node === nodeName) {
+              return depth;
+            }
+            queue = queue.concat(current.children);
+          }
+          depth++;
+        }
+        return -1; // 如果未找到，返回 -1
+      }
+
+      traverseDFS(callback) {
+        callback(this)
+        this.children.forEach((item) => {
+          item.traverseDFS(callback)
+        })
+      }
+      traverseBFS(callback) {
+        callback(this)
+        let queue = this.children.slice()
+        while (queue.length > 0) {
+          let cur = queue.shift()
+          callback(cur)
+          queue = queue.concat(cur.children)
+        }
+      }
+    }
+  </script>
+  <script>
+    class Popup {
+      constructor(title, message) {
+        this.title = title;
+        this.message = message;
+      }
+
+      show(title, message, closeCallback) {
+        this.title = title;
+        this.message = message;
+        const popupDiv = document.createElement('div');
+        popupDiv.style.position = 'fixed';
+        popupDiv.style.width = '250px';
+        popupDiv.style.top = '50%';
+        popupDiv.style.left = '50%';
+        popupDiv.style.transform = 'translate(-50%, -50%)';
+        popupDiv.style.backgroundColor = 'white';
+        popupDiv.style.padding = '20px';
+        popupDiv.style.border = '1px solid black';
+        popupDiv.style.borderRadius = '5px';
+        popupDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+
+        const titleH3 = document.createElement('h3');
+        titleH3.textContent = this.title;
+        titleH3.style.margin = '0';
+        titleH3.style.cursor = 'default';
+
+        const messageP = document.createElement('p');
+        messageP.textContent = this.message;
+
+        const closeP = document.createElement('p');
+        closeP.textContent = 'X';
+        closeP.style.position = 'absolute';
+        closeP.style.top = '0'
+        closeP.style.right = '20px'
+        closeP.style.width = '20px'
+        closeP.style.height = '20px'
+        closeP.style.lineHeight = '20px'
+        closeP.style.textAlign = 'center'
+        closeP.style.cursor = 'pointer'
+        closeP.addEventListener('click', () => {
+          closeCallback()
+          document.body.removeChild(popupDiv);
+        });
+
+        const closeButton = document.createElement('button');
+        closeButton.textContent = '关闭';
+        closeButton.addEventListener('click', () => {
+          closeCallback()
+          document.body.removeChild(popupDiv);
+        });
+
+        popupDiv.appendChild(titleH3);
+        popupDiv.appendChild(messageP);
+        popupDiv.appendChild(closeP);
+        popupDiv.appendChild(closeButton);
+
+        document.body.appendChild(popupDiv);
+      }
+    }
+  </script>
+  <script>
+    // 创建 vue  实例
+    const vm = new Vue({
+      el: '#create-mind-map',
+      data: {
+        popup: new Popup('提示'),
+        isShowPopup: false,
+        root: new Tree({ node: 'root', title: '', content: '' }),
+        margingVal: 40, // 树结点的缩进值
+        collapseMap: new Map(), // 记录折叠状态
+        MaxFontCount: 20, // 画布内 单模块 一行最多字数
+        CanvasFontSize: 20, // 画布内基准字体大小
+        CanvasSpaceX: 100, // 初始偏移量 x
+        CanvasSpaceY: 100, // 初始偏移量 y
+        CanvasSpaceBeetween: 30, // 标题内容之间的间隔
+        CanvasLineWidth: 1, // 画布线条宽度
+      },
+      watch: {
+        'input-root': (that, newValue, oldValue) => {
+          console.log(newValue)
+          if (newValue.length >= that.MaxFontCount && !that.isShowPopup) {
+            that.isShowPopup = true
+            that.popup.show('提示', `输入文字已超出限制（最多${that.MaxFontCount}个字符）`, () => { that.isShowPopup = false })
+          }
+          let data = {
+            content: newValue,
+            oldLength: oldValue.length,
+            font_size: that.CanvasFontSize + 10,
+            start_x: that.CanvasSpaceX,
+            start_y: that.CanvasSpaceY,
+            is_line: true
+          }
+          that.fillText(data)
+          that.root.modifyNodeContent('root', { title: newValue });
+        },
+        'inputArea-root': (that, newValue, oldValue) => {
+          let data = {
+            content: newValue,
+            oldLength: oldValue.length,
+            font_size: that.CanvasFontSize,
+            start_x: that.CanvasSpaceX,
+            start_y: that.CanvasSpaceY + that.CanvasSpaceBeetween + that.CanvasFontSize,
+            is_line: false
+          }
+          that.fillText(data)
+          that.root.modifyNodeContent('root', { content: newValue });
+        },
+      },
+      mounted() {
+        const rootDiv = document.getElementById('create-mind-map')
+
+        const div = document.createElement('div');
+        div.setAttribute('class', 'line-box');
+
+        // 创建一个新的 div 元素 用来 盛放 input，button 元素
+        let newDiv = document.createElement('div');
+        newDiv.setAttribute('id', 'div-root');
+
+        let line1Box = document.createElement('div');
+        line1Box.setAttribute('class', 'line-box');
+
+        const div_tip_title = document.createElement('div');
+        div_tip_title.setAttribute('class', 'title-style');
+        div_tip_title.innerHTML = '主题：'
+        // 创建一个新的 input 元素
+        const div_title = document.createElement('div'); // 创建新的 div 元素
+        div_title.setAttribute('class', 'div-child-input'); // 设置新创建的 div 元素的 class
+        let input_title = document.createElement('input');
+        input_title.setAttribute('type', 'text');
+        input_title.setAttribute('placeholder', '主题');
+        input_title.setAttribute('maxlength', this.data.MaxFontCount);// 设置字数限制为 20
+        input_title.setAttribute('id', 'input-root');
+        div_title.appendChild(input_title);
+
+        // 创建 新增 按钮 容器
+        const div_create = document.createElement('div'); // 创建新的 div 元素
+        div_create.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+        let btn_create = document.createElement('button');
+        btn_create.setAttribute('onclick', 'vm.addChild(event)');
+        btn_create.setAttribute('id', 'btn-root');
+        btn_create.innerHTML = '添加子元素';
+        div_create.appendChild(btn_create); // div 元素 添加子元素 btnDom
+
+        // 创建 删除 按钮 容器
+        const div_del = document.createElement('div'); // 创建新的 div 元素
+        div_del.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+        let btn_del = document.createElement('button'); // 设置新创建的 button 元素的 type
+        btn_del.setAttribute('onclick', 'vm.delChild(event)'); // 设置新创建的 button 元素的 onclick
+        btn_del.setAttribute('id', `btn-root`); // 设置新创建的 button 元素的 id
+        btn_del.innerHTML = '删除'; // 设置新创建的 button 元素的 innerHTML
+        div_del.appendChild(btn_del); // div 元素 添加子元素 btnDom
+
+        // 创建 折叠 按钮 容器
+        const div_collapse = document.createElement('div'); // 创建新的 div 元素
+        div_collapse.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+        let btn_collapse = document.createElement('button');
+        btn_collapse.setAttribute('onclick', 'vm.collapse(event)');
+        btn_collapse.setAttribute('id', 'btn2-root');
+        btn_collapse.innerHTML = '折叠';
+        div_collapse.appendChild(btn_collapse); // div 元素 添加子元素 btnDom
+
+        line1Box.appendChild(div_tip_title);
+        line1Box.appendChild(div_title);
+        line1Box.appendChild(div_create);
+        line1Box.appendChild(div_del);
+        line1Box.appendChild(div_collapse);
+
+        let line2Box = document.createElement('div');
+        line2Box.setAttribute('class', 'line-box');
+
+        const div_tip_content = document.createElement('div');
+        div_tip_content.setAttribute('class', 'title-style');
+        div_tip_content.innerHTML = '内容：'
+        // 创建一个新的 input 元素
+        const div_content = document.createElement('div');
+        div_content.setAttribute('class', 'div-child-input');
+        let inputAreaDom = document.createElement('textarea');
+        inputAreaDom.setAttribute('placeholder', '内容描述');
+        inputAreaDom.setAttribute('id', 'inputArea-root');
+        inputAreaDom.style.width = '420px';
+        inputAreaDom.rows = 3;
+        div_content.appendChild(inputAreaDom);
+
+        line2Box.appendChild(div_tip_content);
+        line2Box.appendChild(div_content);
+
+        const cardDiv = document.createElement('div');
+        cardDiv.setAttribute('class', 'card-box');
+
+        cardDiv.appendChild(line1Box)
+        cardDiv.appendChild(line2Box)
+        newDiv.appendChild(cardDiv);
+
+        rootDiv.appendChild(newDiv);
+      },
+      methods: {
+        getTextLines: function (ctx, data) {
+          let line = 1
+          for (let word of data) {
+            if (ctx.measureText(data.content).width >= this.CanvasFontSize * this.MaxFontCount) {
+              line++
+            }
+          }
+          return line
+        },
+        fillText: function (data) {
+          const c1 = document.getElementById("c1");
+          const ctx = c1.getContext('2d');
+          let lines = 1, linesContent = [];
+
+          if (ctx.measureText(data.content).width >= this.CanvasFontSize * this.MaxFontCount) {
+            lines = this.getTextLines(ctx, data.content);
+          }
+
+          // 先清除指定区域的内容
+          const metrics = ctx.measureText('g');
+          const height = metrics.actualBoundingBoxDescent; // 获取 文本基线 到文本底部位置
+          ctx.clearRect(data.start_x, data.start_y - data.font_size, data.font_size * (this.MaxFontCount || 8), data.font_size * (lines+1) + height);
+
+          if (data.is_line) {
+            ctx.lineWidth = this.CanvasLineWidth;
+            ctx.beginPath();
+            ctx.moveTo(data.start_x - 1, data.start_y + this.CanvasSpaceBeetween / 2);
+            ctx.lineTo(data.start_x + this.MaxFontCount * this.CanvasFontSize, data.start_y + this.CanvasSpaceBeetween / 2);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.closePath();
+          }
+
+          ctx.font = `${data.font_size}px Arial`;
+
+          if (data.content.length === 0) {
+            ctx.fillText('请输入主题/内容', data.start_x, data.start_y);
+            return
+          }
+          if(ctx.measureText(data.content).width <= this.CanvasFontSize * this.MaxFontCount){
+            ctx.fillText(data.content, data.start_x, data.start_y);
+          }else{
+            let text = '';
+            let line = 0
+            let words = 0
+            for(let word of data.content){
+              text += word
+              console.log(ctx.measureText(word).width)
+              ctx.fillText(word, data.start_x+ctx.measureText(word).width*words, data.start_y + this.CanvasFontSize * line);
+              words++
+              if(ctx.measureText(text).width >= this.CanvasFontSize * this.MaxFontCount){
+                words = 0
+                line++
+                text = ''
+              }
+            }
+          }
+
+          
+        },
+        // 发送数据到后端
+        sendData() {
+          console.log(this.root)
+          this.root.removeEmptyNodes()
+
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', 'http://localhost:8888/api/generateMindMap');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+
+          const data = JSON.stringify({
+            data: this.root
+          });
+
+          xhr.send(data);
+
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              const res = JSON.parse(xhr.responseText);
+              console.log(res)
+            }
+          };
+        },
+        // 获取指定节点的子节点数量
+        getChildrenCount: function (root, targetData) {
+          let count = 0
+          root.traverseBFS(item => {
+            if (item.data.node === targetData) {
+              count = item.children.length
+            }
+          })
+          return count
+        },
+        // 折叠节点
+        collapse: function (event) {
+          let element = event.target;
+          let idSplitArr = element.id.split('-') //将id字符串拆分为数组
+
+          let parentNodeName = idSplitArr.slice(1).join('-') // 获取父节点名称
+
+          const rootDiv = document.getElementById(`div-${parentNodeName}`); // 获取父节点对应的 div 元素
+          const childElements = rootDiv.children;
+
+          if (!this.collapseMap.has(parentNodeName)) {
+            element.innerHTML = '展开'
+            this.collapseMap.set(parentNodeName, parentNodeName)
+            for (let child of childElements) {
+              if (child.classList.contains('div-box')) {
+                child.style.display = 'none';
+              }
+            }
+          } else {
+            element.innerHTML = '折叠'
+            this.collapseMap.delete(parentNodeName);
+            for (let child of childElements) {
+              if (child.classList.contains('div-box')) {
+                child.style.display = '';
+              }
+            }
+          }
+        },
+        // 删除节点
+        delChild: function (event) {
+          // 通过 event.target 获取触发事件的元素
+          let element = event.target;
+          let idSplitArr = element.id.split('-') //将id字符串拆分为数组
+          let parentNodeName = idSplitArr.slice(1).join('-') // 获取父节点名称
+          if (parentNodeName === 'root') {
+            const rootDiv = document.getElementById('div-root'); // 获取父节点对应的 div 元素
+            const divBoxElements = rootDiv.querySelectorAll('.div-box');
+            divBoxElements.forEach(element => {
+              if (element.parentNode === rootDiv) {
+                rootDiv.removeChild(element);
+                this.root.children = []
+              }
+            });
+            return
+          }
+          let curElementName = `div-${parentNodeName}`
+          let curElement = document.getElementById(curElementName)
+          curElement.remove()
+          this.root.removeNodeByNodeName(parentNodeName)
+        },
+        // 添加节点
+        addChild: function (event) {
+          // 通过 event.target 获取触发事件的元素
+          let element = event.target;
+
+          let idSplitArr = element.id.split('-') //将id字符串拆分为数组
+
+          let parentNodeName = idSplitArr.slice(1).join('-') // 获取父节点名称
+
+          let childrenCount = this.getChildrenCount(this.root, parentNodeName); // 获取父节点下子节点的数量
+
+          if (childrenCount !== 0) {
+            childrenCount = Number(this.root.getLastChildOfNode(parentNodeName).split('-').slice(-1)[0]) + 1
+          }
+
+          let nodeName = `${parentNodeName}-${childrenCount}` // 获取新节点的名称
+
+          const rootDiv = document.getElementById(`div-${parentNodeName}`); // 获取父节点对应的 div 元素
+          let newDiv = document.createElement('div'); // 创建新的 div 元素
+          newDiv.setAttribute('class', `div-box div-box-${nodeName}`); // 设置新创建的 div 元素的 class
+          newDiv.setAttribute('id', `div-${nodeName}`); // 设置新创建的 div 元素的 id
+          newDiv.style.marginLeft = `${this.margingVal}px`; // 设置新创建的 div 元素的 margin-left
+
+          let line1Box = document.createElement('div');
+          line1Box.setAttribute('class', 'line-box');
+
+          // 创建标题 容器
+          const div_tip_title = document.createElement('div');
+          div_tip_title.setAttribute('class', 'title-style');
+          let deep = this.root.getDepthOfData(parentNodeName) + 1
+          div_tip_title.innerHTML = `${deep}级节点：`;
+
+          // 创建 输入框 容器
+          const div_title = document.createElement('div'); // 创建新的 div 元素
+          div_title.setAttribute('class', 'div-child-input'); // 设置新创建的 div 元素的 class
+          let inputDom = document.createElement('input');// 创建新的 input 元素
+          inputDom.setAttribute('type', 'text'); // 设置新创建的 input 元素的 type
+          inputDom.setAttribute('placeholder', '主题'); // 设置新创建的 input 元素的 placeholder
+          inputDom.setAttribute('id', `input-${nodeName}`); // 设置新创建的 input 元素的 id
+
+          let that = this;
+          inputDom.addEventListener('input', function () {
+            that.root.modifyNodeContent(nodeName, { title: this.value });
+          });
+
+          div_title.appendChild(inputDom); // div 元素 添加子元素 inputDom
+
+          // 创建 新增 按钮 容器
+          const div_create = document.createElement('div'); // 创建新的 div 元素
+          div_create.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+          let btn_create = document.createElement('button'); // 设置新创建的 button 元素的 type
+          btn_create.setAttribute('onclick', 'vm.addChild(event)'); // 设置新创建的 button 元素的 onclick
+          btn_create.setAttribute('id', `btn-${nodeName}`); // 设置新创建的 button 元素的 id
+          btn_create.innerHTML = '添加子元素'; // 设置新创建的 button 元素的 innerHTML
+          div_create.appendChild(btn_create); // div 元素 添加子元素 btnDom
+
+          // 创建 删除 按钮 容器
+          const div_del = document.createElement('div'); // 创建新的 div 元素
+          div_del.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+          let btn_del = document.createElement('button'); // 设置新创建的 button 元素的 type
+          btn_del.setAttribute('onclick', 'vm.delChild(event)'); // 设置新创建的 button 元素的 onclick
+          btn_del.setAttribute('id', `btn-${nodeName}`); // 设置新创建的 button 元素的 id
+          btn_del.innerHTML = '删除'; // 设置新创建的 button 元素的 innerHTML
+          div_del.appendChild(btn_del); // div 元素 添加子元素 btnDom
+
+          // 创建 折叠 按钮 容器
+          const div_collapse = document.createElement('div'); // 创建新的 div 元素
+          div_collapse.setAttribute('class', 'div-child-btn'); // 设置新创建的 div 元素的 class
+          let btn_collapse = document.createElement('button');
+          btn_collapse.setAttribute('onclick', 'vm.collapse(event)');
+          btn_collapse.setAttribute('id', `btn2-${nodeName}`);
+          btn_collapse.innerHTML = '折叠';
+          div_collapse.appendChild(btn_collapse); // div 元素 添加子元素 btnDom
+
+          line1Box.appendChild(div_tip_title);
+          line1Box.appendChild(div_title);
+          line1Box.appendChild(div_create);
+          line1Box.appendChild(div_del);
+          line1Box.appendChild(div_collapse);
+
+          let line2Box = document.createElement('div');
+          line2Box.setAttribute('class', 'line-box');
+
+          const div_tip_content = document.createElement('div');
+          div_tip_content.setAttribute('class', 'title-style');
+          div_tip_content.innerHTML = '内容：'
+          // 创建一个新的 input 元素
+          const div_content = document.createElement('div');
+          div_content.setAttribute('class', 'div-child-input');
+          let inputAreaDom = document.createElement('textarea');
+          inputAreaDom.setAttribute('placeholder', '内容描述');
+          inputAreaDom.setAttribute('id', 'input-root');
+          inputAreaDom.style.width = '420px';
+          inputAreaDom.rows = 3;
+
+          inputAreaDom.addEventListener('input', function () {
+            that.root.modifyNodeContent(nodeName, { content: this.value });
+          });
+
+          div_content.appendChild(inputAreaDom);
+
+          line2Box.appendChild(div_tip_content);
+          line2Box.appendChild(div_content);
+
+          // 容器引入
+          const cardDiv = document.createElement('div');
+          cardDiv.setAttribute('class', 'card-box');
+
+          cardDiv.appendChild(line1Box)
+          cardDiv.appendChild(line2Box)
+          newDiv.appendChild(cardDiv);
+
+          // 将新创建的 div 元素添加到 body 中
+          rootDiv.appendChild(newDiv);
+
+          // 在 树中 添加新的节点
+          this.root.addChildToSpecifiedNode(parentNodeName, { node: nodeName, title: '', content: '' })
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

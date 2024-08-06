@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script> -->
+  <script src='index.js'></script>
+
+  <div id="app">
+    <h1>
+      标题：{{ myTitle }} - {{ myTitle }}
+    </h1>
+    <p>
+      内容：{{ myContent }}
+    </p>
+    <button onclick="fun()">修改标题</button>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        myTitle: '这是标题',
+        myContent: '这是内容'
+      }
+    })
+
+    const fun = () => {
+      console.log(vm)
+      vm.myTitle = '这是修改后的标题'
+    }
+  </script>
+</body>
+
+</html>

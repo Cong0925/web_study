@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeaderLine 示例</title>
+  <script src="../js/anseki-leader-line-6c26a9d//leader-line.min.js"></script>
+  <style>
+ .target {
+      display: inline-block;
+      background-color: #9ee7ea;
+      padding: 12px;
+      cursor: move; 
+    }
+
+    #start {
+      position: absolute; 
+      top: 50px; 
+      left: 50px; 
+    }
+
+    #end {
+      position: absolute; 
+      top: 250px; 
+      left: 250px; 
+    }
+  </style>
+</head>
+
+<body>
+  <div id="start" class="target">start</div>
+  <div id="end" class="target">end</div>
+  <script>
+    // 元素拖拽功能实现
+    function dragElement(element) {
+      element.onmousedown = function (e) {
+        e = e || window.event;
+        let offsetX = e.offsetX;
+        let offsetY = e.offsetY;
+
+        document.onmousemove = function (e) {
+          e = e || window.event;
+          element.style.left = e.clientX - offsetX + 'px';
+          element.style.top = e.clientY - offsetY + 'px';
+
+          // 在元素移动时更新 LeaderLine 的位置
+            // 在元素移动时更新 LeaderLine 的位置
+            leaderLine.position(); 
+        };
+
+        document.onmouseup = function () {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+    }
+
+    // 获取起始元素和结束元素
+    const startElement = document.getElementById('start');
+    const endElement = document.getElementById('end');
+
+    // 为起始元素和结束元素添加拖拽功能
+    dragElement(startElement);
+    dragElement(endElement);
+
+    // 创建 LeaderLine 实例并设置相关参数
+    const leaderLine = new LeaderLine(startElement, endElement, {
+      size: 3,
+      path:'magnet', 
+      startPlug: 'behind', 
+      endPlug: 'disc', 
+      startPlugColor: '#14a2f5', 
+      endPlugColor: '#28a745', 
+      gradient: true, 
+      dash: { animation: true }, 
+    });
+  </script>
+</body>
+
+</html>

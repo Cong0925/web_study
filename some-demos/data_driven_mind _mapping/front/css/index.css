@@ -1,0 +1,59 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+.z-index-max {
+  z-index: 9999;
+}
+
+.title-style {
+  line-height: 35px;
+}
+
+.create-mind-map {
+  margin: 20px;
+}
+
+.card-box {
+  position: absolute;
+  border: 1px solid #d5cccc;
+  width: 550px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  border-style: outset;
+}
+
+.line-box {
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  margin-top: 15px;
+}
+
+.div-child-input {
+  flex: 5
+}
+
+.div-child-btn {
+  margin-left: 5px;
+}
+
+input {
+  width: 90%;
+  line-height: 25px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: 1px solid #8d8d8d;
+}
+
+button {
+  width: 100%;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  line-height: 30px;
+  background-color: #c8eefb;
+  cursor: pointer;
+}
