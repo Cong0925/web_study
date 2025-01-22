@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本框自动匹配</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <div class="inputArea PR">
+        <label>输入自动匹配</label>
+        <span class="inputHelp inputHelp-self-style1 help-hover">帮助</span>
+        <div class="textCursorStatistics"></div>
+        <textarea class="expressionInput"></textarea>
+        <div id="suggestions" class="suggestions"></div>
+        <div class="inputHelp-box">
+            <div style="font-size: 16px;">输入规范说明：</div>
+            <div class="mB5">示例：contact("--",姓名,年龄,"日期：2025-1-15",abs("-10"))</div>
+            <div class="mB5">解释：contact(分隔符,引用字段,自定义输入,函数)</div>
+            <div class="mB5">拼接字符串结果：marry--20--日期：2025-1-15--10</div>
+            <div class="mB5"><span class="fontBold">1.</span>函数名使用英文，之后使用<span class="fontBold">() 包裹参数</span></div>
+            <div class="mB5"><span class="fontBold">2.</span>对于<span class="fontBold">引用字段</span>作为参数，直接填写<span
+                    class="fontBold">参数中文名</span>，使用<span class="fontBold">","(逗号分隔)</span>;</div>
+            <div class="mB5"><span class="fontBold">3.</span>对于<span class="fontBold">自定义</span>的参数，请使用<span
+                    class="fontBold">""(双引号)包裹</span>，然后使用<span class="fontBold">","(逗号分隔)</span>;
+            </div>
+            <div class="mB5"><span class="fontBold">4.</span>对于<span class="fontBold">函数方法</span>作为参数，请参照<span
+                    class="fontBold">以上说明</span>，然后使用<span class="fontBold">","(逗号分隔)</span>;</div>
+        </div>
+    </div>
+    <div class="btns"><button class="testBtn">提取</button></div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 拼音库源代码文档 https://github.com/Kaifuny/pinyin4js/blob/master/src/PinyinHelper.js -->
+    <script src="./js/pinyin4js.js"></script>
+    <script type="module">
+        import { suggestData } from './js/data.js';
+        import globalObj from "./js/global.js";
+
+        // 初始化自动补全功能
+        $(document).ready(function () {
+            $('.inputHelp-box').hide()
+            globalObj.initializeAutocomplete('.expressionInput', suggestData, '#suggestions');
+            globalObj.bindEvents()
+        });
+    </script>
+</body>
+
+</html>

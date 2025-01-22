@@ -1,0 +1,81 @@
+.inputArea {
+    margin: 0 auto;
+    width: 300px;
+}
+
+.expressionInput {
+    display: block;
+    height: 220px;
+    width: 300px;
+    line-height: 20px;
+
+    border: none;
+    box-sizing: border-box;
+    padding: 10px;
+
+    background-color: #ededed;
+    font-size: 16px;
+    font-family: auto;
+    word-break: break-all;
+    /* 支持比例字体 */
+}
+
+.suggestions {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: white;
+    display: none;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.suggestion-item {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background-color: #e4f2fe;
+}
+
+
+
+.textCursorStatistics {
+    position: absolute;
+    padding: 10px;
+    font-size: 16px;
+    visibility: hidden;
+    /* width 需要和 inputArea的width宽度设置相同值 用于后续计算*/
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-all;
+}
+
+.inputHelp-self-style1 {
+    position: absolute;
+    right: 10px;
+}
+
+.inputHelp-box {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    /* top 值 最好设置到帮助提示的正下方，如果之间有空余，鼠标移动到提示面板部分会失败 */
+    top: 20px;
+    left: 200px;
+    z-index: 10;
+    border: 1px solid #9a9393;
+    background-color: #f3f3f3;
+    padding: 10px;
+}
+
+.btns{
+    margin: 0 auto;
+    width: 300px; 
+}
+.testBtn {
+    width: 300px;
+}

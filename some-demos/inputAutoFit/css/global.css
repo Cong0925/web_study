@@ -1,0 +1,15 @@
+.PR {position: relative;}
+.AR {position: absolute;}
+.help-hover {cursor: help;}
+.fontBold{font-weight: bold;}
+
+.tip-box{position: fixed;z-index: 100001;left: 50%;top: 50%;transform: translate(-50%,-50%);min-height: 40px;line-height: 40px;padding: 0 20px;border-radius: 10px;}
+.tip-box.success{background: rgb(240, 249, 235);}
+.tip-box.failed{background: rgb(254, 240, 240);}
+.tip-box.warn{background: rgb(253, 246, 236);}
+.tip-box.info{background: rgb(237, 242, 252);}
+.tip-text{display: inline-block;padding-left: 20px;background: left center no-repeat;border-radius: 10px;}
+.tip-text.success{color: rgb(103, 194, 58);background-image: url("../img/tipIcon_success.png");}
+.tip-text.failed{color: rgb(245, 108, 108);background-image: url("../img/tipIcon_failed.png");}
+.tip-text.warn{color: rgb(230, 162, 60);background-image: url("../img/tipIcon_warn.png");}
+.tip-text.info{color: rgb(144, 147, 153);background-image: url("../img/tipIcon_info.png");}
