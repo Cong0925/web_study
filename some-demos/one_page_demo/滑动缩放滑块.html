@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义缩放控件</title>
+    <style>
+        .container {
+            width: 350px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 2px;
+            background: #f9f9f9;
+        }
+
+        select {
+            width: 60px;
+            height: 30px;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: white;
+            cursor: pointer;
+        }
+
+        span {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 3px;
+            background: #e0e0e0;
+            margin: 0 5px;
+        }
+
+        span:hover {
+            background: #d0d0d0;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="zoomContainer">
+        <select id="zoomSelect">
+            <option value="20">20%</option>
+            <option value="50">50%</option>
+            <option value="75">75%</option>
+            <option value="100" selected>100%</option>
+            <option value="200">200%</option>
+            <option value="500">500%</option>
+        </select>
+
+        <span onclick="zoomOut()">-</span>
+
+        <input type="range" id="zoomRange" min="10" max="500" step="10" value="100">
+
+        <span onclick="zoomIn()">+</span>
+    </div>
+
+    <script>
+        const zoomSelect = document.getElementById("zoomSelect");
+        const zoomRange = document.getElementById("zoomRange");
+        const zoomContainer = document.getElementById("zoomContainer");
+
+        let presetValues = [20, 50, 75, 100, 200, 500];
+        let currentValue = 100;
+
+        // 更新 UI（同步 range 和 select）
+        function updateUI() {
+            zoomRange.value = currentValue;
+            updateSelectDisplay();
+        }
+
+        function updateSelectDisplay() {
+            // 只更新 select 的显示值，而不新增选项
+            if (presetValues.includes(currentValue)) {
+                zoomSelect.value = currentValue;
+                // 去除已有的 'custom' 选项
+                const customOption = zoomSelect.querySelector('option[value="custom"]');
+                if (customOption) {
+                    customOption.remove(); // 删除 'custom' 选项
+                }
+            } else {
+                zoomSelect.value = "custom";
+
+                zoomSelect.innerHTML = presetValues.map(value =>
+                    `<option value="${value}">${value}%</option>`
+                ).join("") + `<option value="custom" selected>${currentValue}%</option>`;
+            }
+
+        }
+
+        function zoomIn() {
+            currentValue = Math.min(500, currentValue + 10);
+            updateUI();
+        }
+
+        function zoomOut() {
+            currentValue = Math.max(10, currentValue - 10);
+            updateUI();
+        }
+
+        // 监听下拉选择变化
+        zoomSelect.addEventListener("change", function () {
+            if (this.value === "custom") return;
+            currentValue = parseInt(this.value);
+            updateUI();
+        });
+
+        // 监听滑动条变化
+        zoomRange.addEventListener("input", function () {
+            currentValue = parseInt(this.value);
+            updateUI();
+        });
+
+        // 监听鼠标滚轮事件
+        zoomContainer.addEventListener("wheel", function (event) {
+            event.preventDefault();
+            event.deltaY < 0 ? zoomIn() : zoomOut();
+        });
+
+    </script>
+
+</body>
+
+</html>

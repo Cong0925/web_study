@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Path 直线与折线</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-force.v1.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        svg {
+            border: 1px solid black;
+        }
+
+        .draggable {
+            cursor: grab;
+        }
+
+        .control-point {
+            fill: orange;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 添加一个按钮 -->
+    <button id="saveDataButton">保存数据</button>
+    <div class="mysvg"></div>
+
+    <script>
+        $(document).ready(function () {
+            const data = {
+                "nodes": [
+                    {
+                        "id": "node1",
+                        "x": "82.46875",
+                        "y": "319"
+                    },
+                    {
+                        "id": "node2",
+                        "x": "305",
+                        "y": "205"
+                    },
+                    {
+                        "id": "node3",
+                        "x": "405",
+                        "y": "305"
+                    }
+                ],
+                "lines": [
+                    {
+                        "id": "line1",
+                        "start": "node1",
+                        "end": "node2",
+                        "type": "line",
+                        "lineStyle": {
+                            "d": "M82.46875,319 L305,205"
+                        }
+                    },
+                    {
+                        "id": "line2",
+                        "start": "node1",
+                        "end": "node2",
+                        "type": "polyline",
+                        "lineStyle": {
+                            "d": [
+                                "M82.46875,319 L193.734375,319",
+                                "M193.734375,319 L193.734375,205",
+                                "M193.734375,205 L305,205"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "line3",
+                        "start": "node1",
+                        "end": "node2",
+                        "type": "curve",
+                        "lineStyle": {
+                            "d": "M82.46875,319 C193.734375,319 193.734375,205 305,205"
+                        }
+                    },
+                    {
+                        "id": "line4",
+                        "start": "node2",
+                        "end": "node3",
+                        "type": "line",
+                        "lineStyle": {
+                            "d": "M305,205 L405,305"
+                        }
+                    },
+                    {
+                        "id": "line5",
+                        "start": "node2",
+                        "end": "node3",
+                        "type": "polyline",
+                        "lineStyle": {
+                            "d": [
+                                "M305,205 L355,205",
+                                "M355,205 L355,305",
+                                "M355,305 L405,305"
+                            ]
+                        }
+                    },
+                    {
+                        "id": "line6",
+                        "start": "node2",
+                        "end": "node3",
+                        "type": "curve",
+                        "lineStyle": {
+                            "d": "M305,205 C355,205 355,305 405,305"
+                        }
+                    }
+                ]
+            };
+
+            const svg = d3.select(".mysvg").append('svg')
+                .attr('id', 'svgArea')
+                .attr('xmlns', 'http://www.w3.org/2000/svg')
+                .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+                .attr('width',"500")
+                .attr('height', "400");
+
+            // 生成节点（矩形）
+            data.nodes.forEach(node => {
+                const rect = svg.append('rect').classed('draggable', true)
+                .attr('id', `rect_${node.id}`)
+                .attr('x', parseFloat(node.x) - 5)
+                .attr('y', parseFloat(node.y) - 5)
+                .attr('width', 10)
+                .attr('height', 10)
+                .attr('fill', getRectColor(node.id))
+            });
+
+            // 生成线路径
+            data.lines.forEach(line => {
+                if (line.type === 'line') {
+                    const lineGroup = svg.append("g")
+                    lineGroup.attr('id', `lineGroup_${line.id}`);
+                    lineGroup.attr('data-type', 'line');
+
+                    const linePath = lineGroup.append("path") 
+                    linePath.attr('id', `linePath_${line.id}`);
+                    linePath.attr('stroke', 'black');
+                    linePath.attr('stroke-width', 2);
+                    linePath.attr('fill', 'none');
+                    linePath.attr('d', line.lineStyle.d);
+
+                } else if (line.type === 'polyline') {
+                    const polylineGroup = svg.append("g")
+                    polylineGroup.attr('id', `polylineGroup_${line.id}`);
+                    polylineGroup.attr('data-type', 'polyline');
+
+                    const pathSegments = line.lineStyle.d;
+                    pathSegments.forEach((d, index) => {
+                        const polylinePath = polylineGroup.append("path")
+                        polylinePath.attr('id', `polylinePath_${line.id}_${index + 1}`);
+                        polylinePath.attr('stroke', 'red');
+                        polylinePath.attr('stroke-width', 2);
+                        polylinePath.attr('fill', 'none');
+                        polylinePath.attr('d', d);
+
+                        // 在每一段连接处绘制圆
+                        if (index < pathSegments.length - 1) {
+                            const [, endX, endY] = d.match(/L(\d+(?:\.\d+)?),(\d+(?:\.\d+)?)$/);
+                            const circleRadius = 1; // 线宽为 2，半径为 1
+                            const circle = polylineGroup.append("circle")
+                            circle.attr('id', `circle_${line.id}_${index + 1}`);
+                            circle.attr('fill', 'red');
+                            circle.attr('cx', endX);
+                            circle.attr('cy', endY);
+                            circle.attr('r', circleRadius);
+                        }
+                    });
+
+                } else if (line.type === 'curve') {
+                    const curveGroup = svg.append('g');
+                    curveGroup.attr('id', `curveGroup_${line.id}`);
+                    curveGroup.attr('data-type', 'bezier');
+
+                    const curvePath = curveGroup.append("path");
+                    curvePath.attr('id', `curvePath_${line.id}`);
+                    curvePath.attr('stroke', 'blue');
+                    curvePath.attr('stroke-width', 2);
+                    curvePath.attr('fill', 'none');
+                    curvePath.attr('d', line.lineStyle.d);
+
+                }
+            });
+
+            // 获取矩形颜色
+            function getRectColor(id) {
+                switch (id) {
+                    case 'node1':
+                        return 'blue';
+                    case 'node2':
+                        return 'red';
+                    case 'node3':
+                        return 'green';
+                    default:
+                        return 'black';
+                }
+            }
+
+            let isDragging = false;
+            let selectedRect = null;
+
+            $(".draggable").on("mousedown", function (event) {
+                isDragging = true;
+                selectedRect = $(this);
+            });
+
+            $(document).on("mousemove", function (event) {
+                if (isDragging && selectedRect) {
+                    let newX = event.clientX - $('#svgArea').get(0).getBoundingClientRect().left - 5;
+                    let newY = event.clientY - $('#svgArea').get(0).getBoundingClientRect().top - 5;
+
+                    selectedRect.attr("x", newX);
+                    selectedRect.attr("y", newY);
+                    updatePaths();
+                }
+            });
+
+            $(document).on("mouseup", function () {
+                isDragging = false;
+                selectedRect = null;
+            });
+
+            function updatePaths() {
+                const nodes = {};
+                data.nodes.forEach(node => {
+                    const rect = $(`#rect_${node.id}`);
+                    nodes[node.id] = {
+                        x: parseFloat(rect.attr("x")) + 5,
+                        y: parseFloat(rect.attr("y")) + 5
+                    };
+                });
+
+                data.lines.forEach(line => {
+                    const startNode = nodes[line.start];
+                    const endNode = nodes[line.end];
+
+                    if (line.type === 'line') {
+                        const linePath = $(`#linePath_${line.id}`);
+                        linePath.attr("d", `M${startNode.x},${startNode.y} L${endNode.x},${endNode.y}`);
+                    } else if (line.type === 'polyline') {
+                        const numSegments = line.lineStyle.d.length;
+                        const midPoints = [];
+                        for (let i = 1; i < numSegments; i++) {
+                            const ratio = i / numSegments;
+                            const midX = startNode.x + (endNode.x - startNode.x) * ratio;
+                            const midY = startNode.y + (endNode.y - startNode.y) * ratio;
+                            midPoints.push({ x: midX, y: midY });
+                        }
+
+                        for (let i = 0; i < numSegments; i++) {
+                            const polylinePath = $(`#polylinePath_${line.id}_${i + 1}`);
+                            if (i === 0) {
+                                polylinePath.attr("d", `M${startNode.x},${startNode.y} L${midPoints[i].x},${midPoints[i].y}`);
+                            } else if (i === numSegments - 1) {
+                                polylinePath.attr("d", `M${midPoints[i - 1].x},${midPoints[i - 1].y} L${endNode.x},${endNode.y}`);
+                            } else {
+                                polylinePath.attr("d", `M${midPoints[i - 1].x},${midPoints[i - 1].y} L${midPoints[i].x},${midPoints[i].y}`);
+                            }
+
+                            if (i < numSegments - 1) {
+                                const circle = $(`#circle_${line.id}_${i + 1}`);
+                                circle.attr('cx', midPoints[i].x);
+                                circle.attr('cy', midPoints[i].y);
+                                circle.attr('r', 1);
+                            }
+                        }
+                    } else if (line.type === 'curve') {
+                        const controlX = (startNode.x + endNode.x) / 2;
+                        const curvePath = $(`#curvePath_${line.id}`);
+                        curvePath.attr("d", `M${startNode.x},${startNode.y} C${controlX},${startNode.y} ${controlX},${endNode.y} ${endNode.x},${endNode.y}`);
+                    }
+                });
+            }
+
+            // 点击按钮保存数据的函数
+            function saveData() {
+                const nodesData = data.nodes.map(node => {
+                    const rect = $(`#rect_${node.id}`);
+                    const x = parseFloat(rect.attr("x")) + 5;
+                    const y = parseFloat(rect.attr("y")) + 5;
+                    return { id: node.id, x: x.toString(), y: y.toString() };
+                });
+
+                const linesData = data.lines.map(line => {
+                    let lineStyle;
+                    if (line.type === 'polyline') {
+                        const polylinePaths = [];
+                        const numSegments = line.lineStyle.d.length;
+                        for (let i = 0; i < numSegments; i++) {
+                            polylinePaths.push($(`#polylinePath_${line.id}_${i + 1}`).attr("d"));
+                        }
+                        lineStyle = { d: polylinePaths };
+                    } else {
+                        lineStyle = { d: $(`#${line.type === 'curve' ? 'curve' : 'line'}Path_${line.id}`).attr("d") };
+                    }
+                    return {
+                        id: line.id,
+                        start: line.start,
+                        end: line.end,
+                        type: line.type,
+                        lineStyle
+                    };
+                });
+
+                const resultData = {
+                    nodes: nodesData,
+                    lines: linesData
+                };
+
+                console.log(resultData);
+            }
+
+            // 绑定按钮点击事件
+            $("#saveDataButton").on("click", saveData);
+
+            updatePaths();
+        });
+    </script>
+</body>
+
+</html>
