@@ -1,0 +1,85 @@
+    <!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monaco Code Editor 离线版</title>
+
+    <!-- 引入本地 jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+    <!-- 引入本地 Monaco Editor -->
+    <script>
+        var require = { paths: { 'vs': './vs' } }; // 指定 Monaco Editor 本地路径
+    </script>
+    <script src="./vs/loader.js"></script>
+    <script src="./vs/editor/editor.main.nls.js"></script>
+    <script src="./vs/editor/editor.main.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; }
+        .container { display: flex; height: 90vh; }
+        #editor { width: 70%; height: 100vh; border-right: 1px solid #ddd; }
+        .list-container { width: 30%; padding: 20px; }
+        .list-container ul { list-style: none; padding: 0; }
+        .list-container li { padding: 8px; cursor: pointer; border: 1px solid #ccc; margin: 5px 0; text-align: center; }
+        .list-container li:hover { background-color: #f0f0f0; }
+        .button-container { text-align: center; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 代码编辑器区域 -->
+        <div id="editor"></div>
+        
+        <!-- 右侧列表 -->
+        <div class="list-container">
+            <h3>可插入的代码片段</h3>
+            <ul>
+                <li onclick="insertAtCursor('console.log(\'Hello, World!\');')">打印 Hello World</li>
+                <li onclick="insertAtCursor('function myFunction() { return 42; }')">定义一个函数</li>
+                <li onclick="insertAtCursor('if (true) { console.log(\'条件成立\'); }')">if 语句</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 获取代码按钮 -->
+    <div class="button-container">
+        <button onclick="getCode()">获取代码</button>
+    </div>
+
+    <script>
+        var editor; // 声明全局 Monaco Editor 实例
+
+        // 初始化 Monaco Editor
+        require(["vs/editor/editor.main"], function () {
+            editor = monaco.editor.create(document.getElementById("editor"), {
+                value: "// 在这里输入你的代码...\n",
+                language: "javascript",
+                theme: "vs", // 设置白色主题
+                automaticLayout: true
+            });
+        });
+
+        // 插入代码到光标处
+        function insertAtCursor(text) {
+            if (!editor) return;
+            var position = editor.getPosition(); // 获取当前光标位置
+            var range = new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column);
+            var id = { major: 1, minor: 1 };
+            var op = { identifier: id, range: range, text: text, forceMoveMarkers: true };
+            editor.executeEdits("my-source", [op]);
+        }
+
+        // 获取编辑器中的代码
+        function getCode() {
+            if (!editor) return;
+            alert("当前代码:\n" + editor.getValue());
+        }
+    </script>
+
+</body>
+</html>
